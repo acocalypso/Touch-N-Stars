@@ -4524,8 +4524,6 @@
           "noisy": "Caméras non refroidies ou optiques très peu lumineuses.",
           "narrowband": "Règle la pose de mise au point sur au moins {seconds} s."
         },
-        "saveHint": "Choisissez un dossier pour enregistrer l'autofocus. L'optimiseur a besoin d'un autofocus enregistré.",
-        "savePath": "Dossier des autofocus enregistrés",
         "startRun": "Lancer l'autofocus",
         "stopRun": "Arrêter l'autofocus",
         "runFailed": "L'autofocus n'a pas pu être lancé.",

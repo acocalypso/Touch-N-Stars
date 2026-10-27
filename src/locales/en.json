@@ -4484,7 +4484,7 @@
           "noiseLevel": "Raise it for noisy cameras or very slow optics.",
           "wideRange": "Keeps heavily defocused, donut-shaped stars. Useful for wide sweeps and reflectors.",
           "useOptimized": "Uses the settings the optimizer found for your setup instead of the presets.",
-          "saveRuns": "Keeps each run on the device. The optimizer and the aberration inspector need saved runs."
+          "saveRuns": "Keeps each run on the device, so the optimizer and the aberration inspector can analyse it again later."
         },
         "stars": "Star detection",
         "advancedActive": "Hocus Focus is in advanced mode. Its detailed star detection settings apply; switch it off under 'Star Detection' to use the presets.",
@@ -4556,7 +4556,7 @@
           },
           "optimize": {
             "title": "Optimize",
-            "description": "Optional: the optimizer tunes star detection on a saved run."
+            "description": "Optional: the optimizer tunes star detection on a fresh autofocus sweep or on a saved run."
           }
         },
         "checks": {
@@ -4576,8 +4576,6 @@
           "noisy": "Uncooled cameras or very slow optics.",
           "narrowband": "Sets the focus exposure to at least {seconds} s."
         },
-        "saveHint": "Choose a folder to save the run in. The optimizer needs a saved run.",
-        "savePath": "Folder for saved runs",
         "startRun": "Start autofocus",
         "stopRun": "Stop autofocus",
         "runFailed": "The autofocus could not be started.",

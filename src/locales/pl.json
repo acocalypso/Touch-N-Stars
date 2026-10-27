@@ -4524,8 +4524,6 @@
           "noisy": "Kamery niechłodzone lub bardzo ciemna optyka.",
           "narrowband": "Ustawia ekspozycję ostrzenia na co najmniej {seconds} s."
         },
-        "saveHint": "Wybierz folder do zapisania autofokusu. Optymalizator potrzebuje zapisanego autofokusu.",
-        "savePath": "Folder zapisanych autofokusów",
         "startRun": "Rozpocznij autofokus",
         "stopRun": "Zatrzymaj autofokus",
         "runFailed": "Nie udało się uruchomić autofokusu.",

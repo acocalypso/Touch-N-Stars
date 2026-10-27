@@ -4565,8 +4565,6 @@
           "noisy": "Ungekühlte Kameras oder sehr lichtschwache Optik.",
           "narrowband": "Setzt die Fokus-Belichtung auf mindestens {seconds} s."
         },
-        "saveHint": "Wähle einen Ordner zum Speichern des Laufs. Der Optimierer braucht einen gespeicherten Lauf.",
-        "savePath": "Ordner für gespeicherte Läufe",
         "startRun": "Autofokus starten",
         "stopRun": "Autofokus stoppen",
         "runFailed": "Der Autofokus konnte nicht gestartet werden.",

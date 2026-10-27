@@ -4524,8 +4524,6 @@
           "noisy": "Câmaras sem arrefecimento ou óticas muito lentas.",
           "narrowband": "Define a exposição de focagem para pelo menos {seconds} s."
         },
-        "saveHint": "Escolha uma pasta para guardar o autofoco. O otimizador precisa de um autofoco guardado.",
-        "savePath": "Pasta dos autofocos guardados",
         "startRun": "Iniciar autofoco",
         "stopRun": "Parar autofoco",
         "runFailed": "Não foi possível iniciar o autofoco.",

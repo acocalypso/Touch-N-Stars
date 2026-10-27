@@ -4524,8 +4524,6 @@
           "noisy": "Camere non raffreddate o ottiche molto lente.",
           "narrowband": "Imposta la posa di messa a fuoco ad almeno {seconds} s."
         },
-        "saveHint": "Scegli una cartella in cui salvare l'autofocus. L'ottimizzatore ha bisogno di un autofocus salvato.",
-        "savePath": "Cartella degli autofocus salvati",
         "startRun": "Avvia autofocus",
         "stopRun": "Ferma autofocus",
         "runFailed": "Impossibile avviare l'autofocus.",

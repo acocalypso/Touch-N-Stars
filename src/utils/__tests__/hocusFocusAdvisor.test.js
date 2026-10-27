@@ -366,8 +366,8 @@ test('the full Pi run caps the sweep a margin inside the star-loss boundary', ()
   ].map(([offset, hfr, stars]) => ({ offset, hfr, stars }));
   const result = suggestStepSize({ hfr: 1.39, stars: 100 }, probes, 3);
   assert.equal(result.limited, true);
-  // 0.8 · ~650 / 3 ≈ 173 — the step size the PINS test profile already works with.
-  assert.ok(result.stepSize >= 160 && result.stepSize <= 185, JSON.stringify(result));
+  // 0.65 · ~650 / 3 ≈ 141: the outer points sit near 420 steps, where about half the stars remain.
+  assert.ok(result.stepSize >= 130 && result.stepSize <= 150, JSON.stringify(result));
 });
 
 test('the measurement bisects back when a probe loses the stars', () => {
@@ -375,7 +375,7 @@ test('the measurement bisects back when a probe loses the stars', () => {
   // Stars vanish at 100 steps, long before 3× (≈ 283 steps): the sweep is capped below that.
   const result = measure(0.02, { lostAt: 100, firstOffset: 16 });
   assert.equal(result.limited, true);
-  assert.ok(result.stepSize * 4 < 80 && result.stepSize * 4 >= 65, JSON.stringify(result));
+  assert.ok(result.stepSize * 4 < 70 && result.stepSize * 4 >= 55, JSON.stringify(result));
   assert.ok(result.count <= 16);
   // Lost even at one step: nothing usable.
   assert.equal(measure(0.01, { lostAt: 1 }).fail, 'lost');

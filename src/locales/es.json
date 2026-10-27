@@ -4524,8 +4524,6 @@
           "noisy": "Cámaras sin refrigeración u ópticas muy lentas.",
           "narrowband": "Ajusta la exposición de enfoque a al menos {seconds} s."
         },
-        "saveHint": "Elige una carpeta para guardar el autoenfoque. El optimizador necesita un autoenfoque guardado.",
-        "savePath": "Carpeta de autoenfoques guardados",
         "startRun": "Iniciar autoenfoque",
         "stopRun": "Detener autoenfoque",
         "runFailed": "No se pudo iniciar el autoenfoque.",

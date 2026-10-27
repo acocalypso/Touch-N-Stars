@@ -4565,8 +4565,6 @@
           "noisy": "Càmeres sense refrigeració o òptiques molt lentes.",
           "narrowband": "Posa l'exposició d'enfocament a com a mínim {seconds} s."
         },
-        "saveHint": "Tria una carpeta on desar l'enfocament. L'optimitzador necessita un enfocament desat.",
-        "savePath": "Carpeta dels enfocaments desats",
         "startRun": "Inicia l'enfocament automàtic",
         "stopRun": "Atura l'enfocament automàtic",
         "runFailed": "No s'ha pogut iniciar l'enfocament automàtic.",

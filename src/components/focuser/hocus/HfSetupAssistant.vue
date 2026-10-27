@@ -92,14 +92,6 @@
         <div v-else-if="step === 'run'" class="flex flex-col gap-3">
           <HfSetupIssues :only="SWEEP_ISSUES" />
           <HfSweepPreview />
-          <template v-if="hfStore.autoFocusOptions && !hfStore.autoFocusOptions.Save">
-            <p class="text-sm text-content-muted">{{ L('saveHint') }}</p>
-            <DirectoryBrowser
-              :model-value="hfStore.autoFocusOptions.SavePath"
-              :label="L('savePath')"
-              @update:model-value="enableSaving"
-            />
-          </template>
           <button
             v-if="!running"
             class="tns-btn-primary min-h-touch"
@@ -201,7 +193,6 @@ import AfStatus from '@/components/focuser/AfStatus.vue';
 import HfAfChart from '@/components/focuser/HfAfChart.vue';
 import HfSelectField from './fields/HfSelectField.vue';
 import HfToggleRow from './fields/HfToggleRow.vue';
-import DirectoryBrowser from './DirectoryBrowser.vue';
 import HfRunAdvice from './HfRunAdvice.vue';
 import HfRoughFocusPreview from './HfRoughFocusPreview.vue';
 import HfStepSizeProbe from './HfStepSizeProbe.vue';
@@ -313,16 +304,6 @@ async function stopRun() {
     await apiService.focuserAfAction('stopp');
   } catch (err) {
     console.error('[HfSetupAssistant] Error stopping autofocus:', err);
-  }
-}
-
-async function enableSaving(path) {
-  try {
-    await hfStore.setAutoFocusOption('SavePath', path);
-    await hfStore.setAutoFocusOption('Save', true);
-  } catch (err) {
-    console.error('[HfSetupAssistant] Error enabling saved runs:', err);
-    saveError.value = err.response?.data?.Error || err.message;
   }
 }
 

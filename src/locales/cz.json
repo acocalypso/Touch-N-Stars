@@ -4524,8 +4524,6 @@
           "noisy": "Nechlazené kamery nebo velmi světelně slabá optika.",
           "narrowband": "Nastaví expozici pro ostření alespoň na {seconds} s."
         },
-        "saveHint": "Vyberte složku pro uložení autofokusu. Optimalizátor potřebuje uložený autofokus.",
-        "savePath": "Složka pro uložené autofokusy",
         "startRun": "Spustit autofokus",
         "stopRun": "Zastavit autofokus",
         "runFailed": "Autofokus se nepodařilo spustit.",

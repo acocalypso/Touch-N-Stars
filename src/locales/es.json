@@ -4457,7 +4457,6 @@
         "saveFailed": "Error al guardar",
         "issues": {
           "missingOptics": "Falta la distancia focal o el tamaño de píxel. La sugerencia de tamaño de estrella necesita ambos.",
-          "saveDisabled": "Los autoenfoques aún no se guardan, así que el optimizador no tiene con qué trabajar.",
           "binningStacked": "El binning de detección y el de autoenfoque están ambos por encima de 1×1. Se multiplican; normalmente solo uno debería estar activo."
         },
         "presets": {

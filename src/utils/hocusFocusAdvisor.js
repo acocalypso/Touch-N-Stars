@@ -255,17 +255,12 @@ function isNarrowband(filter) {
 // Setup problems that are visible before any run.
 //   profile             NINA profile (TelescopeSettings, CameraSettings, FocuserSettings)
 //   starDetection       Hocus Focus star-detection options
-//   autoFocus           Hocus Focus AF options
 //   focuser             NINA focuser info (MaxStep)
-export function checkPrerequisites(profile, starDetection, autoFocus, focuser) {
+export function checkPrerequisites(profile, starDetection, focuser) {
   const issues = [];
   const focalLength = Number(profile?.TelescopeSettings?.FocalLength);
   const pixelSize = Number(profile?.CameraSettings?.PixelSize);
   if (!(focalLength > 0) || !(pixelSize > 0)) issues.push('missingOptics');
-
-  if (autoFocus && (!autoFocus.Save || !String(autoFocus.SavePath || '').trim())) {
-    issues.push('saveDisabled');
-  }
 
   const afBinning = Number(profile?.FocuserSettings?.AutoFocusBinning) || 1;
   if (starDetection && starDetection.DetectionBinning !== 'Bin1' && afBinning > 1) {

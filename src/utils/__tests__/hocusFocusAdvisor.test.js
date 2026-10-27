@@ -158,16 +158,16 @@ test('fixes are left out when the base value is unknown', () => {
   assert.equal(result.findings[0].fix, null);
 });
 
-test('checkPrerequisites reports missing optics, disabled saving and stacked binning', () => {
+test('checkPrerequisites reports missing optics and stacked binning', () => {
   const profile = {
     TelescopeSettings: { FocalLength: 0 },
     CameraSettings: { PixelSize: 3.76 },
     FocuserSettings: { AutoFocusBinning: 2 },
   };
-  assert.deepEqual(
-    checkPrerequisites(profile, { DetectionBinning: 'Bin2' }, { Save: true, SavePath: ' ' }),
-    ['missingOptics', 'saveDisabled', 'binningStacked']
-  );
+  assert.deepEqual(checkPrerequisites(profile, { DetectionBinning: 'Bin2' }), [
+    'missingOptics',
+    'binningStacked',
+  ]);
   assert.deepEqual(
     checkPrerequisites(
       {
@@ -175,8 +175,7 @@ test('checkPrerequisites reports missing optics, disabled saving and stacked bin
         CameraSettings: { PixelSize: 2.9 },
         FocuserSettings: { AutoFocusBinning: 1 },
       },
-      { DetectionBinning: 'Bin2' },
-      { Save: true, SavePath: '/home/pi/af' }
+      { DetectionBinning: 'Bin2' }
     ),
     []
   );
@@ -251,13 +250,11 @@ test('checkPrerequisites flags implausible points per side and a sweep over the 
     },
   });
   const focuser = { MaxStep: 65535 };
-  assert.deepEqual(checkPrerequisites(profile(170, 4), null, null, focuser), []);
-  assert.deepEqual(checkPrerequisites(profile(170, 12), null, null, focuser), [
-    'offsetStepsUnusual',
-  ]);
-  assert.deepEqual(checkPrerequisites(profile(3000, 3), null, null, focuser), ['sweepTooLarge']);
+  assert.deepEqual(checkPrerequisites(profile(170, 4), null, focuser), []);
+  assert.deepEqual(checkPrerequisites(profile(170, 12), null, focuser), ['offsetStepsUnusual']);
+  assert.deepEqual(checkPrerequisites(profile(3000, 3), null, focuser), ['sweepTooLarge']);
   // Without a known travel there is nothing to compare the sweep with.
-  assert.deepEqual(checkPrerequisites(profile(3000, 3), null, null, {}), []);
+  assert.deepEqual(checkPrerequisites(profile(3000, 3), null, {}), []);
   assert.equal(ISSUE_FIXES.offsetStepsUnusual.value, 4);
 });
 

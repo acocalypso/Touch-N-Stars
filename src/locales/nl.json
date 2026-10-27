@@ -4457,7 +4457,6 @@
         "saveFailed": "Opslaan mislukt",
         "issues": {
           "missingOptics": "Brandpuntsafstand of pixelgrootte ontbreekt. De suggestie voor de stergrootte heeft beide nodig.",
-          "saveDisabled": "Autofocussen worden nog niet opgeslagen, dus de optimalisator heeft niets om mee te werken.",
           "binningStacked": "Detectie-binning en autofocus-binning staan allebei boven 1×1. Ze vermenigvuldigen elkaar; meestal hoort er maar één ingesteld te zijn."
         },
         "presets": {

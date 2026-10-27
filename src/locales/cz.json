@@ -4457,7 +4457,6 @@
         "saveFailed": "Uložení se nezdařilo",
         "issues": {
           "missingOptics": "Chybí ohnisková vzdálenost nebo velikost pixelu. Návrh velikosti hvězd potřebuje obojí.",
-          "saveDisabled": "Autofokusy se zatím neukládají, optimalizátor tedy nemá s čím pracovat.",
           "binningStacked": "Binning detekce i binning autofokusu jsou nad 1×1. Násobí se; obvykle by měl být nastaven jen jeden."
         },
         "presets": {

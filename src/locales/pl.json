@@ -4457,7 +4457,6 @@
         "saveFailed": "Zapis nie powiódł się",
         "issues": {
           "missingOptics": "Brakuje ogniskowej lub rozmiaru piksela. Sugestia rozmiaru gwiazd wymaga obu.",
-          "saveDisabled": "Autofokusy nie są jeszcze zapisywane, więc optymalizator nie ma na czym pracować.",
           "binningStacked": "Binning wykrywania i binning autofokusu są oba powyżej 1×1. Mnożą się; zwykle ustawiony powinien być tylko jeden."
         },
         "presets": {

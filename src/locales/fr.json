@@ -4457,7 +4457,6 @@
         "saveFailed": "Échec de l'enregistrement",
         "issues": {
           "missingOptics": "La focale ou la taille des pixels manque. La suggestion de taille des étoiles a besoin des deux.",
-          "saveDisabled": "Les autofocus ne sont pas encore enregistrés, l'optimiseur n'a donc rien à analyser.",
           "binningStacked": "Le binning de détection et le binning d'autofocus sont tous deux au-dessus de 1×1. Ils se multiplient ; en général un seul devrait être réglé."
         },
         "presets": {

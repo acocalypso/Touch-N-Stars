@@ -4498,7 +4498,6 @@
         "saveFailed": "Speichern fehlgeschlagen",
         "issues": {
           "missingOptics": "Brennweite oder Pixelgröße fehlt. Der Vorschlag für die Sterngröße braucht beides.",
-          "saveDisabled": "Autofokus-Läufe werden noch nicht gespeichert, der Optimierer hat also nichts zum Arbeiten.",
           "binningStacked": "Erkennungs-Binning und Autofokus-Binning stehen beide über 1×1. Sie multiplizieren sich; meist sollte nur eines gesetzt sein."
         },
         "presets": {

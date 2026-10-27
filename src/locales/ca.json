@@ -4498,7 +4498,6 @@
         "saveFailed": "No s'ha pogut desar",
         "issues": {
           "missingOptics": "Falta la distància focal o la mida del píxel. El suggeriment de mida dels estels necessita totes dues.",
-          "saveDisabled": "Els enfocaments automàtics encara no es desen, així que l'optimitzador no té amb què treballar.",
           "binningStacked": "El binning de detecció i el d'enfocament automàtic són tots dos per sobre d'1×1. Es multipliquen; normalment només n'hauria d'estar un actiu."
         },
         "presets": {

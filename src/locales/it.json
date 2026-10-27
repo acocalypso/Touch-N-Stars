@@ -4457,7 +4457,6 @@
         "saveFailed": "Salvataggio non riuscito",
         "issues": {
           "missingOptics": "Manca la lunghezza focale o la dimensione dei pixel. Il suggerimento sulla dimensione delle stelle richiede entrambe.",
-          "saveDisabled": "Gli autofocus non vengono ancora salvati, quindi l'ottimizzatore non ha dati su cui lavorare.",
           "binningStacked": "Il binning di rilevamento e quello di autofocus sono entrambi sopra 1×1. Si moltiplicano; di solito ne va impostato uno solo."
         },
         "presets": {

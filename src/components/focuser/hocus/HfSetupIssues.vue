@@ -41,7 +41,6 @@ const shown = computed(() => {
   const issues = checkPrerequisites(
     store.profileInfo,
     hfStore.starDetectionOptions,
-    hfStore.autoFocusOptions,
     store.focuserInfo
   );
   return props.only ? issues.filter((i) => props.only.includes(i)) : issues;

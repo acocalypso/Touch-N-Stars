@@ -4499,7 +4499,6 @@
         "saveFailed": "Saving failed",
         "issues": {
           "missingOptics": "Focal length or pixel size is missing. The star size suggestion needs both.",
-          "saveDisabled": "Autofocus runs are not saved yet, so the optimizer has nothing to work with.",
           "binningStacked": "Detection binning and autofocus binning are both above 1×1. They multiply; usually only one of them should be set.",
           "offsetStepsUnusual": "The number of points per side is unusual. About four is a good start.",
           "sweepTooLarge": "The autofocus sweep covers a large part of the focuser's travel. The step size is probably far too large; measure it in the setup assistant."

@@ -4457,7 +4457,6 @@
         "saveFailed": "保存失败",
         "issues": {
           "missingOptics": "缺少焦距或像素尺寸。星点大小建议需要两者。",
-          "saveDisabled": "自动对焦尚未保存，因此优化器没有可用的数据。",
           "binningStacked": "检测像素合并和自动对焦像素合并都大于 1×1。两者会相乘；通常只应设置其中一个。"
         },
         "presets": {

@@ -28,19 +28,22 @@ structural half; the simplification on top is
 ## Acceptance criteria
 
 1. Given PINS and a responding `hocusfocus/status`, the focus page shows the tabs Focuser,
-   Settings, Aberration Inspector and Tilter; otherwise only Focuser and Settings appear, as
-   today.
+   Settings and HocusFocus; otherwise only Focuser and Settings appear, as today. The HocusFocus
+   tab has the sub-tabs of the old plugin: Aberration Inspector, Aberration Inspector Options,
+   AutoFocus Options, Star Detection and Tilter. The Settings tab splits into sub-tabs: the Hocus
+   Focus essentials first, then one per NINA focuser settings group (without HF only the NINA
+   groups).
 2. HF no longer appears in the plugin list or under Settings → Plugins. A navbar entry of the
    old plugin disappears after the update without an error or a dead link.
 3. Everything the old plugin tabs offered works as before: inspector run / stop / rerun from a
    saved AF run / clear, inspector options, HF autofocus options, star detection including the
    optimizer, tilter.
-4. Aberration Inspector and Tilter mount only while their tab is active; the Focuser tab starts
-   no additional poller.
+4. Every HocusFocus sub-tab mounts only while it is active; the Focuser tab starts no
+   additional poller.
 5. Moved strings keep their wording in all 14 locales; `npm run i18n:check` reports nothing
    missing for them.
-6. At 390 px width the four-entry SubNav scrolls inside itself, the page does not scroll
-   horizontally; on desktop Aberration Inspector and Tilter use the wide layout the plugin had.
+6. At 390 px width the sub-tab bar scrolls inside itself, the page does not scroll
+   horizontally; on desktop the HocusFocus tab uses the wide layout the plugin had.
 7. The finished-AF chart loads the HF last run based on HF availability
    (`hocusFocusStore.available`), not on `isPINS` alone.
 

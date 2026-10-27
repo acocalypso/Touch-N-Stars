@@ -1,23 +1,17 @@
 <template>
-  <div class="flex flex-col gap-2 sm:gap-4">
+  <div class="flex flex-col gap-4">
+    <SegmentTabs v-model="activeTab" :tabs="tabs" />
+
+    <!-- Optional leading tab, e.g. the Hocus Focus essentials -->
+    <slot v-if="activeTab === 'simple'" name="simple" />
+
     <!-- General Settings Container -->
-    <div
-      v-if="store.isPINS"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.general') }}
-      </h3>
+    <div v-if="activeTab === 'general'" class="tns-card flex flex-col gap-3">
       <setFocuserMaxStep />
     </div>
 
     <!-- AutoFocus Settings Container -->
-    <div
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.autofocus') }}
-      </h3>
+    <div v-if="activeTab === 'autofocus'" class="tns-card flex flex-col gap-3">
       <setFocuserUseFilterOffset />
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusExposureTime"
@@ -58,12 +52,7 @@
     </div>
 
     <!-- Crop & Stars Container -->
-    <div
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.crop_and_stars') }}
-      </h3>
+    <div v-if="activeTab === 'crop_and_stars'" class="tns-card flex flex-col gap-3">
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusInnerCropRatio"
         settingKey="FocuserSettings-AutoFocusInnerCropRatio"
@@ -89,12 +78,7 @@
     </div>
 
     <!-- Backlash Container -->
-    <div
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.backlash') }}
-      </h3>
+    <div v-if="activeTab === 'backlash'" class="tns-card flex flex-col gap-3">
       <SettingInput
         labelKey="components.focuser.settings.BacklashIn"
         settingKey="FocuserSettings-BacklashIn"
@@ -117,12 +101,7 @@
     </div>
 
     <!-- Advanced Container -->
-    <div
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.advanced') }}
-      </h3>
+    <div v-if="activeTab === 'advanced'" class="tns-card flex flex-col gap-3">
       <SettingInput
         labelKey="components.focuser.settings.AutoFocusBinning"
         settingKey="FocuserSettings-AutoFocusBinning"
@@ -151,19 +130,13 @@
         translationPrefix="components.focuser.settings."
       />
       <ProfileToggle
-        class="border border-gray-500 p-1 rounded-lg"
+        class="rounded-control border border-line p-1"
         labelKey="components.focuser.settings.AutoFocusDisableGuiding"
         settingKey="FocuserSettings-AutoFocusDisableGuiding"
       />
     </div>
     <!-- Device specific settings container -->
-    <div
-      v-if="store.isPINS && hasDeviceSettings"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-    >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.deviceSpecific') }}
-      </h3>
+    <div v-if="activeTab === 'deviceSpecific'" class="tns-card flex flex-col gap-3">
       <pinsSetMotorSpeedControl
         v-if="store.isPINS && focuserStore.focuserSettings?.HasMotorSpeedControl"
       />
@@ -199,11 +172,46 @@ import pinsSetUSBCapacity from './settingsPins/pinsSetUSBCapacity.vue';
 import pinsSetFocuserAlias from './settingsPins/pinsSetFocuserAlias.vue';
 import pinsClearStall from './settingsPins/pinsClearStall.vue';
 import pinsResetPosition from './settingsPins/pinsResetPosition.vue';
+import SegmentTabs from '@/components/helpers/SegmentTabs.vue';
 import { useFocuserStore } from '@/store/focuserStore';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
+const props = defineProps({
+  // Label of a leading tab that renders the `simple` slot; no such tab without it
+  simpleLabel: { type: String, default: '' },
+});
+
+const { t } = useI18n();
 const store = apiStore();
 const focuserStore = useFocuserStore();
 
 const hasDeviceSettings = computed(() => focuserStore.focuserSettings != null);
+
+const tabs = computed(() => [
+  ...(props.simpleLabel ? [{ value: 'simple', label: props.simpleLabel }] : []),
+  ...[
+    // General holds only the max step, which hides itself on focusers that cannot set it
+    ...(store.isPINS && store.focuserInfo.CanSetMaxStep ? ['general'] : []),
+    'autofocus',
+    'crop_and_stars',
+    'backlash',
+    'advanced',
+    ...(store.isPINS && hasDeviceSettings.value ? ['deviceSpecific'] : []),
+  ].map((value) => ({ value, label: t(`components.focuser.settings.${value}`) })),
+]);
+const activeTab = ref(tabs.value[0].value);
+
+// A tab can vanish (PINS check resolves, device settings or Hocus Focus go away): fall back to
+// the first one instead of showing nothing.
+watch(tabs, (list) => {
+  if (!list.some((tab) => tab.value === activeTab.value)) activeTab.value = list[0].value;
+});
+// The leading tab is the recommended start; open it once it shows up after the async HF probe.
+watch(
+  () => props.simpleLabel,
+  (label, previous) => {
+    if (label && !previous) activeTab.value = 'simple';
+  }
+);
 </script>

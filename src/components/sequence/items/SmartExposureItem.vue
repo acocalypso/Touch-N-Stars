@@ -1,9 +1,7 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 shrink-0">{{
-        switchFilter.ComboBoxText
-      }}</span>
+      <span v-if="currentFilter" class="text-xs text-slate-400 shrink-0">{{ currentFilter }}</span>
       <template v-if="exposure">
         <span class="text-xs text-slate-400 font-mono shrink-0">{{ exposure.ExposureTime }}s</span>
         <span class="text-xs text-slate-500 shrink-0">G{{ exposure.Gain }}</span>
@@ -21,14 +19,14 @@
         }}</label>
         <select
           class="tns-select ml-auto w-36 md:w-40"
-          :value="switchFilter.ComboBoxText"
-          @change="saveFilter('SelectedFilter', filterNames.indexOf($event.target.value) + 1)"
+          :value="currentFilter"
+          @change="saveFilter($event.target.value)"
         >
           <option
-            v-if="switchFilter.ComboBoxText && !filterNames.includes(switchFilter.ComboBoxText)"
-            :value="switchFilter.ComboBoxText"
+            v-if="currentFilter && !filterNames.includes(currentFilter)"
+            :value="currentFilter"
           >
-            {{ switchFilter.ComboBoxText }}
+            {{ currentFilter }}
           </option>
           <option v-for="(name, i) in filterNames" :key="i" :value="name">
             {{ name }}
@@ -137,6 +135,7 @@ import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import GainInput from '@/components/helpers/GainInput.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { apiStore } from '@/store/store';
+import { switchFilterName, switchFilterUpdate } from '@/utils/sequenceFilter';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -176,8 +175,12 @@ const binningValue = computed(() => {
   return JSON.stringify({ X: b.X, Y: b.Y });
 });
 
-function saveFilter(key, value) {
-  if (switchFilter.value?.Id) store.setProperty(switchFilter.value.Id, key, value);
+const currentFilter = computed(() => switchFilterName(switchFilter.value));
+
+function saveFilter(name) {
+  if (!switchFilter.value?.Id) return;
+  const { property, value } = switchFilterUpdate(switchFilter.value, filterNames.value, name);
+  store.setProperty(switchFilter.value.Id, property, value);
 }
 
 function saveExposure(key, value) {

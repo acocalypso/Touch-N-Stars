@@ -6,5 +6,10 @@
   "author": "Christian Wöhrle",
   "defaultEnabled": false,
   "enabled": true,
-  "isPins": true
+  "isPins": true,
+  "ninaPlugin": {
+    "name": "PINS.LuckyCapture",
+    "displayName": "Lucky Capture",
+    "pinsPackage": "pins-plugin-luckycapture"
+  }
 }

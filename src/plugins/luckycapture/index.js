@@ -3,6 +3,7 @@ import { VideoCameraIcon } from '@heroicons/vue/24/outline';
 import { usePluginStore } from '@/store/pluginStore';
 import LuckyCapture from './views/LuckyCapture.vue';
 import metadata from './plugin.json';
+import { withNinaPluginGate } from '@/components/ninaPlugins/withNinaPluginGate';
 
 export default {
   metadata,
@@ -12,7 +13,7 @@ export default {
     if (!plugin?.pluginPath) return;
     router.addRoute({
       path: plugin.pluginPath,
-      component: LuckyCapture,
+      component: withNinaPluginGate(LuckyCapture, metadata),
       meta: { requiresSetup: true },
     });
     if (plugin.enabled)

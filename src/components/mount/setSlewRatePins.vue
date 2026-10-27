@@ -33,6 +33,7 @@
       ></div>
       <input
         type="range"
+        :aria-label="$t('components.mount.control.slewRate')"
         min="0"
         :max="Math.max(0, options.length - 1)"
         step="1"
@@ -57,6 +58,7 @@
       ></div>
       <input
         type="range"
+        :aria-label="$t('components.mount.control.slewRate')"
         :min="capability.Min"
         :max="capability.Max"
         :step="continuousStep"

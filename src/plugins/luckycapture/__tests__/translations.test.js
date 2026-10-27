@@ -26,7 +26,10 @@ for (const file of fs.readdirSync(directory).filter((name) => name.endsWith('.js
       assert.ok(value.trim(), `${file}: ${key} is empty`);
       assert.equal(hasDamagedLocaleText(value), false, `${file}: ${key} has encoding damage`);
       assert.equal(
-        i18n.global.t(`luckycapture.${key}`),
+        i18n.global.t(
+          `luckycapture.${key}`,
+          Object.fromEntries([...value.matchAll(/\{(\w+)\}/g)].map((match) => [match[1], match[0]]))
+        ),
         value,
         `${file}: ${key} does not render verbatim`
       );

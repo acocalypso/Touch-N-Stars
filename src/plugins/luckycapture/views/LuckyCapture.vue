@@ -1,12 +1,43 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useSettingsStore } from '@/store/settingsStore';
+import {
+  cameraPreferenceKey,
+  readCameraPreferences,
+  writeCameraPreferences,
+  sensorPoint,
+  cameraDefaults,
+} from '../utils/cameraPreferences';
 import FocusPanel from '../components/FocusPanel.vue';
+import MountPanel from '../components/MountPanel.vue';
 import CameraControl from '../components/CameraControl.vue';
 import IntensityHistogram from '../components/IntensityHistogram.vue';
 import { readLimit, selectionToRoi } from '../utils/captureUi';
 import { useLuckyCaptureStore } from '../store/luckycaptureStore';
 const store = useLuckyCaptureStore();
+const connectionSettings = useSettingsStore();
+const rotatedPreview = ref(false);
+const preferenceKey = computed(() =>
+  cameraPreferenceKey(
+    `${connectionSettings.connection.ip}:${connectionSettings.connection.port}`,
+    store.camera
+  )
+);
+function savePreferences(settings) {
+  const previous = readCameraPreferences(localStorage, preferenceKey.value) || {};
+  writeCameraPreferences(localStorage, preferenceKey.value, {
+    ...previous,
+    ...(settings ? { settings: { ...settings, usbLimit: form.usbLimit } } : {}),
+    rotatedPreview: rotatedPreview.value,
+    outputDirectory: recording.outputDirectory,
+  });
+}
+function rotatePreview() {
+  rotatedPreview.value = !rotatedPreview.value;
+  savePreferences();
+}
+
 const { t } = useI18n();
 const text = (key) => t(`luckycapture.${key}`);
 const form = reactive({
@@ -25,6 +56,7 @@ const roi = reactive({ x: 0, y: 0, width: 512, height: 512 });
 const useRoi = ref(false);
 const recording = reactive({
   format: 'ser',
+  outputDirectory: '',
   frameLimit: null,
   durationSeconds: null,
   playbackFps: 25,
@@ -33,6 +65,10 @@ const recording = reactive({
   relativeDirectory: '',
   filenameTemplate: '{date}_{time}_{target}_{camera}_{sequence}',
 });
+watch(
+  () => recording.outputDirectory,
+  () => savePreferences()
+);
 const focusBusy = ref(false);
 const focusStatus = ref(null);
 const analysisBox = computed(() => {
@@ -85,6 +121,7 @@ const canStart = computed(
     !recordingActive.value
 );
 const panel = ref('preview');
+const mountOpen = ref(false);
 const pageRoot = ref(null);
 const compact = ref(window.innerWidth <= 900);
 let resizeFrame = 0;
@@ -143,9 +180,28 @@ watch(
   }
 );
 const supportedControls = computed(() =>
-  store.controls.filter((c) =>
-    ['exposure', 'gain', 'offset', 'usbLimit', 'bitDepth', 'binning'].includes(c.id)
-  )
+  store.controls
+    .filter((c) => ['exposure', 'gain', 'offset', 'usbLimit', 'bitDepth', 'binning'].includes(c.id))
+    .map((control) => {
+      if (
+        control.id !== 'bitDepth' ||
+        store.capabilities.rawDepthOptions?.length < 2 ||
+        !store.capabilities.rawDepthOptions
+      )
+        return control;
+      const stream = store.capabilities.stream;
+      const enabled =
+        form.acquisitionMode !== 'exposures' &&
+        stream?.available &&
+        (stream.hardwareValidated || form.allowExperimentalStreaming) &&
+        (!stream.requiresDriverReconnect || form.allowDriverReconnect);
+      return {
+        ...control,
+        type: 'enum',
+        options: store.capabilities.rawDepthOptions,
+        readOnly: !enabled,
+      };
+    })
 );
 const controlKey = (id) => (id === 'exposure' ? 'exposureSeconds' : id);
 const number = (value, digits = 1) => (Number.isFinite(value) ? value.toFixed(digits) : '\u2014');
@@ -165,14 +221,21 @@ async function invoke(action) {
 }
 async function load() {
   await store.open();
-  Object.assign(form, store.settings, {
-    binning: `${store.settings.binX || 1}x${store.settings.binY || 1}`,
+  if (!store.camera?.connected) return;
+  const saved = readCameraPreferences(localStorage, preferenceKey.value);
+  const values = store.active
+    ? store.settings
+    : saved?.settings || cameraDefaults(store.camera, store.controls, store.capabilities);
+  rotatedPreview.value = saved?.rotatedPreview ?? connectionSettings.currentImageRotation === 180;
+  recording.outputDirectory = saved?.outputDirectory || '';
+  Object.assign(form, values, {
+    binning: `${values.binX || 1}x${values.binY || 1}`,
   });
   for (const c of store.controls)
     if (form[controlKey(c.id)] == null && c.currentValue != null)
       form[controlKey(c.id)] = c.currentValue;
-  useRoi.value = !!store.settings.roi;
-  if (store.settings.roi) Object.assign(roi, store.settings.roi);
+  useRoi.value = !!values.roi;
+  if (values.roi) Object.assign(roi, values.roi);
 }
 const invalidControl = ref(null);
 async function validateCamera() {
@@ -225,7 +288,7 @@ async function apply() {
       offset: form.offset == null ? null : Number(form.offset),
       binX,
       binY,
-      bitDepth: store.controls.some((c) => c.id === 'bitDepth' && !c.readOnly)
+      bitDepth: supportedControls.value.some((c) => c.id === 'bitDepth' && !c.readOnly)
         ? Number(form.bitDepth)
         : null,
       acquisitionMode: form.acquisitionMode,
@@ -236,6 +299,8 @@ async function apply() {
     },
     'PUT'
   );
+  savePreferences(store.settings);
+  await store.refreshCamera();
 }
 async function start(record) {
   if (record) {
@@ -295,10 +360,13 @@ const drag = ref(null);
 const selection = ref(null);
 function point(event) {
   const box = event.currentTarget.getBoundingClientRect();
-  return {
-    x: Math.max(0, Math.min(1, (event.clientX - box.left) / box.width)),
-    y: Math.max(0, Math.min(1, (event.clientY - box.top) / box.height)),
-  };
+  return sensorPoint(
+    {
+      x: Math.max(0, Math.min(1, (event.clientX - box.left) / box.width)),
+      y: Math.max(0, Math.min(1, (event.clientY - box.top) / box.height)),
+    },
+    rotatedPreview.value
+  );
 }
 function selectStart(event) {
   if (
@@ -451,6 +519,7 @@ onUnmounted(() => {
         v-show="!compact || panel === 'preview'"
         id="lc-preview"
         class="visual"
+        :class="{ 'mount-centering': mountOpen }"
         :role="compact ? 'tabpanel' : undefined"
         :aria-labelledby="compact ? 'lc-tab-preview' : undefined"
       >
@@ -471,6 +540,7 @@ onUnmounted(() => {
           <div
             v-if="store.previewUrl"
             class="preview-frame"
+            :class="{ rotated: rotatedPreview }"
             @pointerdown="selectStart"
             @pointermove="selectMove"
             @pointerup="selectEnd"
@@ -501,7 +571,11 @@ onUnmounted(() => {
             <p class="hint">{{ text('previewHelp') }}</p>
           </div>
         </div>
+        <MountPanel :visible="!compact || panel === 'preview'" @update:open="mountOpen = $event" />
         <div class="preview-tools">
+          <button type="button" :aria-pressed="rotatedPreview" @click="rotatePreview">
+            {{ text('rotatePreview') }}
+          </button>
           <button
             v-if="store.camera?.roiSupported"
             :disabled="busy || recordingActive || finishing || !store.previewUrl"
@@ -517,6 +591,7 @@ onUnmounted(() => {
             {{ text('snapshotShort') }}
           </button>
         </div>
+        <p class="hint">{{ text('previewOrientationHelp') }}</p>
         <p class="hint" :class="{ selectingHint: selecting }">{{ roiHint }}</p>
         <dl class="stats primary-stats">
           <div v-for="key in primaryMetrics" :key="key">
@@ -646,6 +721,7 @@ onUnmounted(() => {
                 ><input v-model="useRoi" type="checkbox" aria-describedby="lc-roi-help" />
                 {{ text('roi') }}</label
               >
+              <p class="field-help full-width">{{ text('cameraPreferencesHelp') }}</p>
               <p id="lc-roi-help" class="field-help full-width">{{ text('helpRoi') }}</p>
               <p
                 v-if="useRoi && store.status.roiMode === 'software'"
@@ -713,8 +789,15 @@ onUnmounted(() => {
             <summary>{{ text('fileSettings') }}</summary>
             <div class="settings-grid">
               <div
-                v-for="key in ['target', 'filter', 'relativeDirectory', 'filenameTemplate']"
+                v-for="key in [
+                  'outputDirectory',
+                  'target',
+                  'filter',
+                  'relativeDirectory',
+                  'filenameTemplate',
+                ]"
                 :key="key"
+                v-show="key !== 'outputDirectory' || store.capabilities.customOutputDirectory"
                 class="field"
               >
                 <label :for="`lc-file-${key}`">{{ text(key) }}</label>
@@ -722,6 +805,11 @@ onUnmounted(() => {
                   :id="`lc-file-${key}`"
                   :aria-describedby="`lc-help-${key}`"
                   v-model="recording[key]"
+                  :placeholder="
+                    key === 'outputDirectory'
+                      ? store.capabilities.defaultOutputDirectory
+                      : undefined
+                  "
                   type="text"
                   autocomplete="off"
                 />
@@ -730,6 +818,10 @@ onUnmounted(() => {
             </div>
           </details>
         </fieldset>
+        <p v-if="store.capabilities.defaultOutputDirectory" class="hint filename">
+          {{ text('outputDirectory') }}:
+          {{ recording.outputDirectory || store.capabilities.defaultOutputDirectory }}
+        </p>
         <p class="hint">{{ text('rawNote') }}</p>
       </section>
       <section
@@ -948,6 +1040,9 @@ summary:focus-visible {
   background: #080b10;
   border: 1px solid var(--lc-border);
   border-radius: var(--radius-card, 14px);
+}
+.preview-frame.rotated {
+  transform: rotate(180deg);
 }
 .preview-frame {
   position: relative;
@@ -1215,5 +1310,13 @@ progress {
   color: #fff;
   background: #102d3d;
   font-size: 12px;
+}
+.compact .visual.mount-centering .preview {
+  --preview-height: clamp(140px, 24vh, 200px);
+}
+@supports (height: 1dvh) {
+  .compact .visual.mount-centering .preview {
+    --preview-height: clamp(140px, 24dvh, 200px);
+  }
 }
 </style>

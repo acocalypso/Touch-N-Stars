@@ -20,7 +20,7 @@
   </div>
 
   <!-- Algo params (PINS only) -->
-  <template v-if="store.isPINS && guiderStore.phd2IsConnected">
+  <template v-if="phd2Active">
     <div v-if="algoParams.ra" class="shrink-0 text-sm">
       <p class="font-bold">RA params:</p>
       <div class="grid grid-cols-2 gap-x-3 w-fit">
@@ -128,6 +128,12 @@ const store = apiStore();
 const guiderStore = useGuiderStore();
 const { openPicker } = useNumberPicker();
 
+// phd2IsConnected is only refreshed by the PHD2 poll, which stops once another guider
+// (e.g. the internal one) is selected - so it can stay true. Check the device as well.
+const phd2Active = computed(
+  () => store.isPINS && store.guiderInfo?.DeviceId === 'PHD2_Single' && guiderStore.phd2IsConnected
+);
+
 const EXCLUDED_PARAMS = ['algorithmName', 'fastSwitch', 'periodLength'];
 
 const PARAM_CONFIG = {
@@ -185,7 +191,7 @@ async function fetchParamsForAxis(axis) {
 }
 
 async function fetchMaxDurations() {
-  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
+  if (!phd2Active.value) return;
   try {
     const ra = await apiPinsService.getMaxRaDuration();
     if (ra?.Success) maxRaDuration.value = ra.Response?.MaxRaDuration ?? null;
@@ -218,7 +224,7 @@ function openMaxDurationPicker(axis) {
 }
 
 async function fetchDecGuideMode() {
-  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
+  if (!phd2Active.value) return;
   try {
     const r = await apiPinsService.getDecGuideMode();
     if (r?.Success) decGuideMode.value = r.Response?.DecGuideMode ?? null;
@@ -239,7 +245,7 @@ async function cycleDecGuideMode() {
 }
 
 async function fetchAlgoParams() {
-  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
+  if (!phd2Active.value) return;
   algoLoading.value = algoParams.value.ra === null && algoParams.value.dec === null;
   const [ra, dec] = await Promise.all([fetchParamsForAxis('ra'), fetchParamsForAxis('dec')]);
   algoParams.value = { ra, dec };
@@ -247,7 +253,7 @@ async function fetchAlgoParams() {
 }
 
 async function fetchGuideAlgorithms() {
-  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
+  if (!phd2Active.value) return;
   await Promise.all([
     guiderStore.fetchPHD2GuideAlgorithmRA(),
     guiderStore.fetchPHD2GuideAlgorithmDEC(),
@@ -263,7 +269,7 @@ function fetchAll() {
 }
 
 watch(
-  () => guiderStore.phd2IsConnected,
+  phd2Active,
   (connected) => {
     if (connected) fetchAll();
   },
@@ -272,13 +278,11 @@ watch(
 
 // Poll only while the guider graph is visible and PHD2 is connected - and
 // pause automatically when the app is backgrounded (see src/utils/appLifecycle.js).
-const shouldPoll = computed(
-  () => guiderStore.showGuiderGraph && guiderStore.phd2IsConnected && store.isPINS
-);
+const shouldPoll = computed(() => guiderStore.showGuiderGraph && phd2Active.value);
 
 useBackgroundAwarePolling(
   () => {
-    if (store.isPINS && guiderStore.phd2IsConnected) fetchAll();
+    if (phd2Active.value) fetchAll();
   },
   5000,
   shouldPoll,

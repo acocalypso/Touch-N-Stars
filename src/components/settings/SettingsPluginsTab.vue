@@ -97,10 +97,13 @@ import { apiStore } from '@/store/store';
 import { usePluginStore } from '@/store/pluginStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
+import { fetchLoadedNinaPlugins, useNinaPluginInstallStore } from '@/store/ninaPluginInstallStore';
+import { getNinaPluginRequirement, isNinaPluginLoaded } from '@/utils/ninaPluginRequirement';
 
 const store = apiStore();
 const pluginStore = usePluginStore();
 const settingsStore = useSettingsStore();
+const installStore = useNinaPluginInstallStore();
 
 const generalPlugins = computed(() => {
   return pluginStore.plugins.filter((p) => !p.isPins);
@@ -123,6 +126,19 @@ const togglePlugin = async (pluginId, enabled) => {
     await pluginStore.togglePlugin(pluginId, enabled);
   } catch (error) {
     console.error('Error toggling plugin:', error);
+    return;
   }
+  if (enabled) await offerMissingNinaPlugin(pluginId);
 };
+
+// On PINS, enabling a plugin whose NINA plugin is not loaded offers to install it right away.
+async function offerMissingNinaPlugin(pluginId) {
+  const plugin = pluginStore.plugins.find((p) => p.id === pluginId);
+  const requirement = getNinaPluginRequirement(plugin);
+  if (!store.isPINS || !requirement?.pinsPackage) return;
+
+  const loaded = await fetchLoadedNinaPlugins();
+  if (loaded === null || isNinaPluginLoaded(loaded, requirement)) return;
+  installStore.offer({ pluginName: plugin.name, requirement });
+}
 </script>

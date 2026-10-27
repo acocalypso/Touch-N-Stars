@@ -154,7 +154,7 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 import { Capacitor } from '@capacitor/core';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
-import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { usePinsStore } from '@/store/pinsStore';
 import WizardLanguageStep from './steps/WizardLanguageStep.vue';
 import WizardInfoStep from './steps/WizardInfoStep.vue';
 import WizardInstanceStep from './steps/WizardInstanceStep.vue';

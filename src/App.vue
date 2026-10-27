@@ -123,8 +123,10 @@
         v-show="store.showSkyAtlas"
       />
       <div v-if="!shouldShowConnectionSplash" :class="stageClasses" :style="stageStyle">
-        <div class="container mx-auto px-3 py-4">
-          <router-view v-show="!store.showSkyAtlas" :key="routerViewKey" />
+        <!-- v-show sits on the wrapper: on a page with a fragment root (e.g. EquipmentPage)
+             it would be ignored and the page would flash before the atlas covers it. -->
+        <div v-show="!store.showSkyAtlas" class="container mx-auto px-3 py-4">
+          <router-view :key="routerViewKey" />
         </div>
       </div>
       <!-- Fixed frame mask: paints the frame with a rounded window punched out
@@ -258,6 +260,9 @@
       @close="dismissWhatsNew"
     />
 
+    <!-- Meridian flip day test: app level, so a running test survives a page reload -->
+    <MeridianFlipDayTest v-if="flipTestStore.visible" @close="flipTestStore.close()" />
+
     <!-- Dialog Modal -->
     <DialogModal />
 
@@ -332,9 +337,11 @@
         <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
       </template>
       <template #body>
-        <SettingsComp />
+        <SettingsComp @navigate="showSettingsModal = false" />
       </template>
     </Modal>
+
+    <NinaPluginInstallDialog />
   </div>
 </template>
 
@@ -379,7 +386,7 @@ import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
-import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { usePinsStore } from '@/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { NATIVE_GUIDER_ID } from '@/utils/nativeGuider';
@@ -408,12 +415,19 @@ import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/servic
 import apiPinsService from '@/services/apiPinsService';
 import { createUnderVoltageNotifier } from '@/plugins/systemmetrics/services/underVoltageNotifier';
 import { usePluginStore } from '@/store/pluginStore';
+import { useMeridianFlipTestStore } from '@/store/meridianFlipTestStore';
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
+const MeridianFlipDayTest = defineAsyncComponent(
+  () => import('@/components/mount/settings/MeridianFlipDayTest.vue')
+);
 const SetupWizard = defineAsyncComponent(() => import('@/components/setupWizard/SetupWizard.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
+const NinaPluginInstallDialog = defineAsyncComponent(
+  () => import('@/components/ninaPlugins/NinaPluginInstallDialog.vue')
+);
 const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/WhatsNewModal.vue'));
 const UpdateAvailableModal = defineAsyncComponent(
   () => import('@/components/helpers/UpdateAvailableModal.vue')
@@ -427,7 +441,17 @@ const settingsStore = useSettingsStore();
 const toastStore = useToastStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
+const flipTestStore = useMeridianFlipTestStore();
 const route = useRoute();
+
+// A flip test that ran before a reload comes back once the backend answers.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable) flipTestStore.restore();
+  },
+  { immediate: true }
+);
 const pluginStore = usePluginStore();
 const skyAtlasMounted = ref(Boolean(store.showSkyAtlas));
 

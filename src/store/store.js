@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
 import { useSettingsStore } from '@/store/settingsStore';
-import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { usePinsStore } from '@/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
 import { useImagetStore } from './imageStore';
 import { useAutofocusStore } from '@/store/autofocusStore';

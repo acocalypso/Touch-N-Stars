@@ -5,6 +5,76 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 17] - 2026-10-27
+
+### Added
+
+- Focus (PINS): The autofocus setup assistant measures the right step size with your focuser and warns when the autofocus sweep covers an implausibly large part of the focuser's travel.
+
+### Changed
+
+- Focus (PINS): The focus settings and Hocus Focus are split into sub-tabs, and the page heading is gone to leave more room.
+
+### Fixed
+
+- Focus (PINS): The autofocus setup assistant no longer claims the optimizer needs saved autofocus runs.
+- Camera: The exposure progress ring sits centered inside the capture button.
+
+## [App6.5.0 - beta 16] - 2026-10-25
+
+### Added
+
+- Settings (Meridian Flip): One question about how far the mount can track past the meridian replaces the three minute values, and a timeline shows when the flip happens.
+- Settings (Meridian Flip): A daylight test lets NINA do a real meridian flip with your settings from a start point you drive to yourself, shows the time to the meridian and reports whether NINA hit an error during the flip.
+- Focus (PINS): Hocus Focus is now part of the focus page, with the key autofocus settings in one card, a setup assistant and a check after each run that suggests a fix you can apply with one tap.
+- PINS: Plugins that need a NINA plugin offer to install it and restart PINS.
+- Settings: A PINS tab leads straight to the PINS page.
+
+### Changed
+
+- PINS: The PINS page is built in instead of a plugin and has new System and INDI tabs.
+- PINS: Installing or uninstalling a NINA plugin package warns that PINS restarts.
+- PINS: Packages the app needs are no longer listed under Software.
+
+### Removed
+
+- PINS: The separate Hocus Focus plugin; its Aberration Inspector, Tilter and options are now tabs and sections of the focus page.
+
+### Fixed
+
+- Settings: Switches show changes made by a preset or another client without reopening the page.
+- PINS: The page uses the full width on large screens.
+- PINS: The INDI driver install dialog closes after the install starts.
+
+## [App6.5.0 - beta 15] - 2026-10-23
+
+### Fixed
+
+- Status bar: The camera panel shows the dew heater switch and, where available, its strength, also for cameras without cooling.
+- Atlas: Opening the sky atlas no longer briefly flashes the equipment page.
+- Image viewer: The Android back gesture closes the full-screen image instead of leaving the page.
+
+## [App6.5.0 - beta 14] - 2026-10-21
+
+### Added
+
+- Sequence: The sequence status on the monitor and on the sequence page shows the target that is being imaged right now, and with several targets also its position, for example "Target 2 of 3". This also works with large sequences and with targets inside other containers.
+
+### Changed
+
+- Sequence editor: The expert view no longer has a link back to the simple view. The view is switched in the sequence settings.
+
+### Fixed
+
+- Sequence editor (NINA): Changing the filter of a Smart Exposure, a Switch Filter or one of the flat items failed with an error under NINA, in the simple and in the expert view. The filter is now set, and the item shows the filter it uses. PINS is not affected.
+
+## [App6.5.0 - beta 13] - 2026-10-21
+
+### Added
+
+- Sequence editor: New simple view for users who just want to image a list of targets, similar to the legacy sequencer in NINA. Each target is a card with its exposure rows of filter, exposure time and count, where rows can be added, removed, switched off and opened for gain, offset, image type and binning. Targets are chosen by search, favorites, framing or by entering the coordinates, and can be copied with all their exposures, moved and deleted. Per target you choose how to go there (slew, slew and center, center and rotate), whether guiding starts and when autofocus runs: on start, on filter change, after time, after a number of exposures, after a temperature change or after an HFR increase. Switches cover meridian flip and dithering every N frames for the whole sequence, cooling the camera and unparking the mount at the start, and warming the camera and parking the mount at the end. Each card shows the altitude over the night, the remaining time and the expected clock times, and the overview shows when the sequence will be done. The view is chosen in the sequence settings; the expert editor stays the default and is one tap away.
+- Framing: When sending a target to the loaded sequence, the new target can be added as a copy of an existing one with all its exposures, instead of starting empty.
+
 ## [App6.5.0 - beta 9] - 2026-10-20
 
 ### Added
@@ -46,6 +116,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Image history: The image viewer has arrows to the previous and next image, in the order and filter of the history. The arrow keys and a sideways swipe do the same; zoomed in, a swipe still moves the image.
 - Sequence monitor: The session timeline remembers the chosen start and end on this device, also after leaving the page or reloading. A range that reaches the current time keeps growing, so new data still shows up when only the start was moved. A range from an earlier night is not carried over to the next one.
 - Native Guider (PINS): The last error in the status bar can be dismissed with its cross; it stays hidden on this device until another error comes.
+- Native Guider (PINS): Calibrate asks first, and so does Guide when there is no calibration yet; the dialog can slew the mount to a calibration position first, like PHD2's Calibration Assistant: 5° from the meridian on the celestial equator, on the mount's current side or on the east or west side of the sky. The controls show the slew while it runs, and Stop cancels it. This needs a PINS version with the slew option.
 
 ### Changed
 
@@ -62,6 +133,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- PINS AI Chat: Local multilingual chat with MCP tools, explicit equipment-action approval, live job results and redacted troubleshooting reports.
 - Native Guider (PINS): The camera group of the settings tab now also sets the guide camera's readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. Gain, offset and binning stay the guider's own settings there.
 - Guiding: The guide camera card also sets the guide camera's readout mode, USB limit and camera options next to gain, offset and binning.
 
@@ -663,8 +735,6 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner
 
 ## [App5.2.0-beta3] - 2026-07-21
-
-## [App5.2.0-beta3] - unreleased
 
 ### Added
 

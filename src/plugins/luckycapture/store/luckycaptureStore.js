@@ -73,11 +73,34 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
         events.onerror = () => {
           if (current === generation) this.streamConnected = false;
         };
+        let refreshingConnection = false;
         events.onmessage = async (event) => {
           if (current !== generation) return;
           const previous = this.status.previewSequence;
           this.status = JSON.parse(event.data);
           if (this.status.state === 'DISCONNECTED') this.camera = { connected: false };
+          else if (
+            this.status.state === 'READY' &&
+            !this.camera?.connected &&
+            !refreshingConnection
+          ) {
+            refreshingConnection = true;
+            try {
+              await this.refreshCamera();
+              const capabilities = await luckyCaptureRequest(
+                'capabilities',
+                undefined,
+                'GET',
+                controller?.signal
+              );
+              if (current === generation) this.capabilities = capabilities;
+            } catch (error) {
+              if (current === generation) this.failure(error);
+            } finally {
+              refreshingConnection = false;
+            }
+          }
+          if (current !== generation) return;
           if (previous !== this.status.previewSequence && this.status.previewSequence > 0)
             await this.sample(current);
         };
@@ -90,10 +113,15 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
       }
     },
     async refreshCamera() {
-      this.camera = await luckyCaptureRequest('camera', undefined, 'GET', controller?.signal);
-      this.controls = this.camera.connected
-        ? await luckyCaptureRequest('controls', undefined, 'GET', controller?.signal)
+      const current = generation;
+      const signal = controller?.signal;
+      const camera = await luckyCaptureRequest('camera', undefined, 'GET', signal);
+      const controls = camera.connected
+        ? await luckyCaptureRequest('controls', undefined, 'GET', signal)
         : [];
+      if (current !== generation) return;
+      this.camera = camera;
+      this.controls = controls;
     },
     async sample(current) {
       if (sampling) return;

@@ -10,6 +10,20 @@ import {
   findTargetAreaContainer,
   DSO_CONTAINER_TYPE,
 } from '@/utils/sequenceTargets';
+import {
+  collectSmartExposureDithers,
+  findAreaContainer,
+  findByType,
+  insertionPoint,
+  isActive,
+  DITHER_AFTER_EXPOSURES_TYPE,
+  END_AREA_TYPE,
+  END_ORDER,
+  SLEW_MODE_TYPES,
+  START_AREA_TYPE,
+  START_ORDER,
+  TARGET_ORDER,
+} from '@/utils/sequenceSimple';
 
 const RUNTIME_FIELDS = [
   'ExpectedTime',
@@ -580,6 +594,173 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       const added = collectDsoContainers(this.data).find((c) => !knownIds.has(c.Id));
       if (!added) return { ok: false };
       return { ok: true, id: added.Id };
+    },
+
+    // Duplicates a DSO container with all its exposures; the plugin inserts the copy right
+    // behind the source. Returns { ok, locked, error, id } like addDsoTarget(), so the caller
+    // can give the copy its own target via setDsoTarget().
+    async copyDsoTarget(sourceId) {
+      if (this._isControlsLocked()) return { ok: false, locked: true };
+
+      const knownIds = new Set(collectDsoContainers(this.data).map((c) => c.Id));
+      try {
+        const res = await apiService.sequenceDuplicate(sourceId);
+        if (res?.Success === false) return { ok: false, error: res.Error };
+      } catch (e) {
+        console.error('copyDsoTarget:', e);
+        return { ok: false, error: e?.response?.data?.Error ?? e?.response?.data?.Message };
+      }
+
+      await this.refresh();
+
+      // Matched by "new Id" rather than the id in the response: older plugins do not return
+      // one, and the tree's Ids are what setDsoTarget() addresses anyway.
+      const added = collectDsoContainers(this.data).find((c) => !knownIds.has(c.Id));
+      if (!added) return { ok: false };
+      return { ok: true, id: added.Id };
+    },
+
+    // Switches an optional global trigger (meridian flip, dither) on or off. Off disables the
+    // existing trigger instead of removing it, so its settings survive; on re-enables it, or
+    // adds one at the end of the global triggers when the sequence has none.
+    async setGlobalTriggerEnabled(fullTypeName, enabled) {
+      if (this._isControlsLocked()) return;
+
+      const existing = findByType(this.globalTriggers, fullTypeName);
+      if (existing) {
+        const isEnabled = existing.Status !== 'DISABLED';
+        if (isEnabled !== enabled) await this.enable(existing.Id, enabled);
+        return;
+      }
+      if (!enabled) return;
+
+      const last = this.globalTriggers.at(-1);
+      const targetId = last?.Id ?? this.data[0]?.Id;
+      if (!targetId) return;
+      await this.addTrigger(targetId, fullTypeName, last ? true : null);
+    },
+
+    // Switches an optional item of a container on or off, like setGlobalTriggerEnabled():
+    // off disables, on re-enables or adds one. A new item is placed by insertionPoint() with
+    // `order` and `fallback` (see src/utils/sequenceSimple.js).
+    async setContainerItemEnabled(containerId, fullTypeName, enabled, order, fallback) {
+      if (this._isControlsLocked()) return;
+
+      const container = this.findById(containerId);
+      if (!container) return;
+      const existing = findByType(container.Items, fullTypeName);
+      if (existing) {
+        const isEnabled = existing.Status !== 'DISABLED';
+        if (isEnabled !== enabled) await this.enable(existing.Id, enabled);
+        return;
+      }
+      if (!enabled) return;
+
+      const { targetId, insertAfter } = insertionPoint(container, fullTypeName, order, fallback);
+      await this.addItem(targetId, fullTypeName, insertAfter);
+    },
+
+    // Optional item of the start area (camera cooling, unpark). New ones go to the top:
+    // they have to run before everything else.
+    async setStartItemEnabled(fullTypeName, enabled) {
+      const start = findAreaContainer(this.data, START_AREA_TYPE);
+      if (!start) return;
+      await this.setContainerItemEnabled(start.Id, fullTypeName, enabled, START_ORDER, 'top');
+    },
+
+    // Optional item of the end area (warm camera, park). New ones go to the bottom.
+    async setEndItemEnabled(fullTypeName, enabled) {
+      const end = findAreaContainer(this.data, END_AREA_TYPE);
+      if (!end) return;
+      await this.setContainerItemEnabled(end.Id, fullTypeName, enabled, END_ORDER, 'bottom');
+    },
+
+    // Optional step of a target (start guiding, autofocus at the start), placed before its
+    // exposures.
+    async setTargetItemEnabled(containerId, fullTypeName, enabled) {
+      await this.setContainerItemEnabled(containerId, fullTypeName, enabled, TARGET_ORDER, 'top');
+    },
+
+    // How a target is approached: 'off', 'slew', 'center' or 'centerAndRotate'. The other two
+    // approaches are disabled, not removed, so switching back keeps their settings.
+    async setTargetSlewMode(containerId, mode) {
+      if (this._isControlsLocked()) return;
+
+      for (const [key, type] of Object.entries(SLEW_MODE_TYPES)) {
+        if (key === mode) continue;
+        const existing = findByType(this.findById(containerId)?.Items, type);
+        if (isActive(existing)) await this.enable(existing.Id, false);
+      }
+      const type = SLEW_MODE_TYPES[mode];
+      if (type) await this.setTargetItemEnabled(containerId, type, true);
+    },
+
+    // Optional trigger of a container (the autofocus triggers of a target). Off disables,
+    // on re-enables or appends one.
+    async setContainerTriggerEnabled(containerId, fullTypeName, enabled) {
+      if (this._isControlsLocked()) return;
+
+      const container = this.findById(containerId);
+      if (!container) return;
+      const existing = findByType(container.Triggers, fullTypeName);
+      if (existing) {
+        const isEnabled = existing.Status !== 'DISABLED';
+        if (isEnabled !== enabled) await this.enable(existing.Id, enabled);
+        return;
+      }
+      if (!enabled) return;
+
+      const last = container.Triggers?.at(-1);
+      await this.addTrigger(last?.Id ?? container.Id, fullTypeName, last ? true : null);
+    },
+
+    // Global dithering. Switching it on also zeroes the dither triggers built into Smart
+    // Exposures -- otherwise those frames would be dithered by both. They are not restored
+    // when it is switched off again.
+    async setGlobalDither(enabled) {
+      if (this._isControlsLocked()) return;
+
+      await this.setGlobalTriggerEnabled(DITHER_AFTER_EXPOSURES_TYPE, enabled);
+      if (!enabled) return;
+      // Only when the global trigger really is active now -- after a rejected add the Smart
+      // Exposures must keep dithering themselves.
+      if (!isActive(findByType(this.globalTriggers, DITHER_AFTER_EXPOSURES_TYPE))) return;
+
+      const changes = collectSmartExposureDithers(this.data)
+        .filter((trigger) => !this._isItemRunning(trigger.Id))
+        .map((trigger) => ({ id: trigger.Id, propertyName: 'AfterExposures', value: 0 }));
+      await this.setProperties(changes);
+    },
+
+    // Like setProperty() for several values, with one refresh at the end instead of one per
+    // value. Returns whether all were accepted; rejections are reported together.
+    async setProperties(changes) {
+      if (this._isControlsLocked()) return false;
+      if (!changes.length) return true;
+
+      const errors = [];
+      for (const { id, propertyName, value } of changes) {
+        if (this._isItemRunning(id)) continue;
+        try {
+          const res = await apiService.sequenceSetProperty(id, propertyName, value);
+          if (res?.Success === false) errors.push(res.Error);
+        } catch (e) {
+          console.error('sequenceSetProperty:', e);
+          errors.push(e?.response?.data?.Error ?? e?.message ?? String(e));
+        }
+      }
+      if (errors.length) this._showError([...new Set(errors)].join('\n'));
+      await this.refresh();
+      return !errors.length;
+    },
+
+    // Moves a DSO container one place up (-1) or down (+1) among the DSO containers.
+    async moveDsoTarget(id, direction) {
+      const targets = collectDsoContainers(this.data);
+      const index = targets.findIndex((c) => c.Id === id);
+      const neighbour = targets[index + direction];
+      if (index < 0 || !neighbour) return;
+      await this.move(id, neighbour.Id, direction > 0);
     },
   },
 });

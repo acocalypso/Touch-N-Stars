@@ -192,7 +192,7 @@
       <div v-show="statusBarStore.isPanelOpen('camera')" class="p-5 flex flex-col gap-3">
         <infoCamera />
         <settingsCameraCooler
-          v-if="store.cameraInfo.CanSetTemperature"
+          v-if="store.cameraInfo.CanSetTemperature || store.cameraInfo.HasDewHeater"
           compact
           class="sm:max-w-sm"
         />

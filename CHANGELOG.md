@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 17] - 2026-10-27
+
+### Added
+
+- Focus (PINS): The autofocus setup assistant measures the right step size with your focuser and warns when the autofocus sweep covers an implausibly large part of the focuser's travel.
+
+### Changed
+
+- Focus (PINS): The focus settings and Hocus Focus are split into sub-tabs, and the page heading is gone to leave more room.
+
+### Fixed
+
+- Focus (PINS): The autofocus setup assistant no longer claims the optimizer needs saved autofocus runs.
+- Camera: The exposure progress ring sits centered inside the capture button.
+
 ## [App6.5.0 - beta 16] - 2026-10-25
 
 ### Added

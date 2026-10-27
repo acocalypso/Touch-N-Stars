@@ -23,18 +23,14 @@
     >
       <!-- Phase 1: Belichtungsfortschritt mit Server-Countdown -->
       <template v-if="store.cameraInfo.IsExposing">
-        <svg :class="['absolute inset-0', progressSizeClasses]" viewBox="0 0 36 36">
+        <svg class="absolute inset-0 w-full h-full" viewBox="0 0 36 36">
           <path
             class="text-white/30 fill-none stroke-current stroke-[2.8]"
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
           />
           <path
             class="fill-none stroke-white stroke-[2.8]"
-            :style="{
-              strokeDasharray: cameraStore.exposureProgress + ', 100',
-              transform: 'rotate(-90deg)',
-              transformOrigin: 'center',
-            }"
+            :style="{ strokeDasharray: cameraStore.exposureProgress + ', 100' }"
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
           />
         </svg>
@@ -337,14 +333,6 @@ const iconSizeClasses = computed(() => {
     return 'w-12 h-12'; // All landscape
   }
   return 'w-16 h-16'; // Portrait
-});
-
-// Progress circle size classes - proportional to button size
-const progressSizeClasses = computed(() => {
-  if (isLandscape.value) {
-    return 'w-12 h-12 lg:w-16 lg:h-16'; // Same as button size
-  }
-  return 'w-12 h-12 lg:w-16 lg:h-16'; // Portrait mode
 });
 
 // Progress text size classes

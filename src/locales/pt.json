@@ -5483,6 +5483,12 @@
         "rear": "trás",
         "saddle": "barra dovetail na sela"
       },
+      "side": {
+        "East": "Este",
+        "West": "Oeste",
+        "eastShort": "E",
+        "westShort": "O"
+      },
       "manual": {
         "title": "Verificação diurna com flip",
         "intro": "Sem plate solving: aponta para um ponto de referência distante e depois move para o mesmo ângulo horário e a mesma declinação no outro lado do pilar. O rastreamento fica desligado, por isso o apontamento fica fixo em relação ao solo.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "O relógio do Pi parece não estar acertado. A verificação do Sol depende dele.",
         "timeSkew": "O relógio do Pi difere {minutes} minutos do relógio deste dispositivo.",
         "setTime": "Acertar a hora do Pi a partir deste dispositivo",
+        "setTimeFailed": "Não foi possível acertar a hora do Pi.",
         "start": "Iniciar a verificação diurna",
         "startConfirmTitle": "Iniciar a verificação diurna?",
         "startConfirmMessage": "O rastreamento fica desligado até terminares a verificação; depois é restaurado o estado anterior.",

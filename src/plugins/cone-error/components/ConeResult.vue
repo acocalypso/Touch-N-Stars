@@ -16,7 +16,7 @@
     <div class="grid grid-cols-2 gap-2">
       <div class="tns-stat-tile">
         <span class="tns-stat-label">{{ $t('plugins.coneError.result.cone') }}</span>
-        <span class="tns-stat-value">{{ signed(result.coneArcmin) }}′</span>
+        <span class="tns-stat-value">{{ signedArcmin(result.coneArcmin) }}′</span>
         <span v-if="result.stdDevArcmin != null" class="text-xs text-content-muted">
           {{
             $t('plugins.coneError.result.spread', {
@@ -62,8 +62,8 @@
       <p class="text-content">
         {{
           $t('plugins.coneError.result.beforeAfter', {
-            before: signed(previous.coneArcmin),
-            after: signed(result.coneArcmin),
+            before: signedArcmin(previous.coneArcmin),
+            after: signedArcmin(result.coneArcmin),
             date: new Date(previous.timestampUtc).toLocaleDateString(),
           })
         }}
@@ -78,6 +78,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { shimMm, signedArcmin } from '../format';
 import PairTable from './PairTable.vue';
 import ShimDiagram from './ShimDiagram.vue';
 
@@ -88,14 +89,9 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-function signed(value) {
-  if (typeof value !== 'number') return '—';
-  return `${value > 0 ? '+' : ''}${value.toFixed(2)}`;
-}
-
 const shimText = computed(() =>
   typeof props.result.shimMm === 'number' && props.result.shimEnd !== 'None'
-    ? `${(Math.round(props.result.shimMm * 20) / 20).toFixed(2)} mm`
+    ? `${shimMm(props.result.shimMm)} mm`
     : '—'
 );
 

@@ -61,7 +61,7 @@
       <div class="flex items-center justify-between gap-2">
         <h2 class="font-semibold text-content">{{ $t('plugins.coneError.manual.title') }}</h2>
         <span class="text-xs text-content-muted">
-          {{ $t('plugins.coneError.manual.side', { side: manual.currentSide || '—' }) }}
+          {{ $t('plugins.coneError.manual.side', { side: sideLabel($t, manual.currentSide) }) }}
         </span>
       </div>
       <p class="text-sm text-content">{{ status.message }}</p>
@@ -105,7 +105,7 @@
             {{ manual.capturedAltitude.toFixed(1) }}° / {{ manual.capturedAzimuth.toFixed(1) }}°
           </dd>
           <dt>{{ $t('plugins.coneError.manual.capturedSide') }}</dt>
-          <dd class="text-content">{{ manual.capturedSide }}</dd>
+          <dd class="text-content">{{ sideLabel($t, manual.capturedSide) }}</dd>
         </dl>
         <label class="flex items-start gap-3 text-sm text-content">
           <input v-model="directionConfirmed" type="checkbox" class="w-5 h-5 mt-0.5" />
@@ -118,7 +118,7 @@
             :key="check.side"
             :class="check.ok ? 'text-status-ok' : 'text-status-danger'"
           >
-            {{ check.side }}:
+            {{ sideLabel($t, check.side) }}:
             {{ check.ok ? $t('plugins.coneError.manual.reachable') : check.reason }}
           </li>
         </ul>
@@ -142,7 +142,7 @@
     <!-- The planned move: checks, warnings, confirmation -->
     <section v-if="movePlan" class="tns-card space-y-3">
       <h3 class="font-semibold text-content">
-        {{ $t('plugins.coneError.manual.planTitle', { side: movePlan.toSide }) }}
+        {{ $t('plugins.coneError.manual.planTitle', { side: sideLabel($t, movePlan.toSide) }) }}
       </h3>
       <p
         v-if="!movePlan.ok"
@@ -201,12 +201,7 @@
         </dd>
       </dl>
       <ul v-if="movePlan.ok" class="space-y-1 text-sm text-status-warn">
-        <li
-          v-for="warning in movePlan.warnings.filter((w) => !w.startsWith('Sun check overridden'))"
-          :key="warning"
-        >
-          {{ warning }}
-        </li>
+        <li v-for="warning in movePlan.warnings" :key="warning">{{ warning }}</li>
       </ul>
       <label v-if="movePlan.ok" class="flex items-start gap-3 text-sm text-content">
         <input v-model="capsConfirmed" type="checkbox" class="w-5 h-5 mt-0.5" />
@@ -326,12 +321,14 @@
 </template>
 
 <script setup>
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import apiPinsService from '@/services/apiPinsService';
 import { useToastStore } from '@/store/toastStore';
+import { sideLabel } from '../format';
+import { usePlanClock } from '../planClock';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import ConeChecks from './ConeChecks.vue';
 import ConeStopButton from './ConeStopButton.vue';
@@ -359,15 +356,24 @@ const canAnswerPierLabels = computed(
 const directionConfirmed = ref(false);
 const capsConfirmed = ref(false);
 const axisOffsetMm = ref(store.settings?.axisOffsetMm ?? 250);
+// The settings may arrive after the tab was opened: then take the saved offset over once.
+if (!store.settings) {
+  const stopWatch = watch(
+    () => store.settings,
+    (settings) => {
+      if (!settings) return;
+      if (settings.axisOffsetMm) axisOffsetMm.value = settings.axisOffsetMm;
+      stopWatch();
+    }
+  );
+}
 const landmarkKm = ref(5);
 const settingTime = ref(false);
 
 watch(movePlan, () => (capsConfirmed.value = false));
 
 // A planned move is valid for 60 s on the backend, counted from when it arrived here.
-const now = ref(Date.now());
-const timer = setInterval(() => (now.value = Date.now()), 1000);
-onUnmounted(() => clearInterval(timer));
+const now = usePlanClock(movePlan);
 const moveSecondsLeft = computed(() =>
   movePlan.value?.expiresInSeconds
     ? Math.max(
@@ -414,7 +420,15 @@ async function guarded(action) {
 async function setPiTime() {
   settingTime.value = true;
   try {
-    await apiPinsService.setSystemTime(Math.floor(Date.now() / 1000));
+    // setSystemTime reports a failure as false instead of throwing
+    const ok = await apiPinsService.setSystemTime(Math.floor(Date.now() / 1000));
+    if (!ok) {
+      toast.showToast({
+        type: 'error',
+        title: t('plugins.coneError.manual.setTimeFailed'),
+        message: '',
+      });
+    }
     await store.loadPreconditions();
   } finally {
     settingTime.value = false;

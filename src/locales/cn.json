@@ -5483,6 +5483,12 @@
         "rear": "后",
         "saddle": "鞍座上的燕尾板"
       },
+      "side": {
+        "East": "东",
+        "West": "西",
+        "eastShort": "东",
+        "westShort": "西"
+      },
       "manual": {
         "title": "白天翻转检查",
         "intro": "无需天文定位：对准远处的地标，然后在另一个立柱侧移动到相同的时角和赤纬。跟踪保持关闭，因此指向相对地面固定。",
@@ -5493,6 +5499,7 @@
         "timeUnset": "Pi 的时钟似乎未设置。太阳检查依赖于它。",
         "timeSkew": "Pi 的时钟与本设备的时钟相差 {minutes} 分钟。",
         "setTime": "用本设备的时间设置 Pi 的时间",
+        "setTimeFailed": "无法设置 Pi 的时间。",
         "start": "开始白天检查",
         "startConfirmTitle": "开始白天检查？",
         "startConfirmMessage": "在结束检查之前跟踪将保持关闭；结束时会恢复之前的跟踪状态。",

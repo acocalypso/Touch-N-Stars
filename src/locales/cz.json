@@ -5483,6 +5483,12 @@
         "rear": "zadní",
         "saddle": "rybina na sedle"
       },
+      "side": {
+        "East": "Východ",
+        "West": "Západ",
+        "eastShort": "V",
+        "westShort": "Z"
+      },
       "manual": {
         "title": "Denní kontrola přehozu",
         "intro": "Bez plate solvingu: zamiřte na vzdálený pozemní bod a poté přejeďte do téhož hodinového úhlu a deklinace na druhé straně montáže. Sledování zůstane vypnuté, takže zaměření zůstane pevné vůči zemi.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "Hodiny Pi vypadají nenastavené. Kontrola Slunce na nich závisí.",
         "timeSkew": "Hodiny Pi se liší od hodin tohoto zařízení o {minutes} minut.",
         "setTime": "Nastavit čas Pi podle tohoto zařízení",
+        "setTimeFailed": "Čas Pi se nepodařilo nastavit.",
         "start": "Spustit denní kontrolu",
         "startConfirmTitle": "Spustit denní kontrolu?",
         "startConfirmMessage": "Sledování je vypnuto, dokud kontrolu neukončíte; poté se obnoví předchozí stav sledování.",

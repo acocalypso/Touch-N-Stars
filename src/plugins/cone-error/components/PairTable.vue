@@ -4,8 +4,8 @@
       <thead class="text-content-muted">
         <tr>
           <th class="text-left py-1">#</th>
-          <th class="text-right">ΔRA E</th>
-          <th class="text-right">ΔRA W</th>
+          <th class="text-right">ΔRA {{ sideLabel($t, 'East', true) }}</th>
+          <th class="text-right">ΔRA {{ sideLabel($t, 'West', true) }}</th>
           <th class="text-right">{{ $t('plugins.coneError.result.cone') }}</th>
           <th class="text-left pl-2">{{ $t('plugins.coneError.progress.note') }}</th>
         </tr>
@@ -31,6 +31,8 @@
 </template>
 
 <script setup>
+import { sideLabel } from '../format';
+
 defineProps({
   pairs: { type: Array, default: () => [] },
 });

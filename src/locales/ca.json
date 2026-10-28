@@ -5483,6 +5483,12 @@
         "rear": "darrere",
         "saddle": "cua d'oreneta sobre la sella"
       },
+      "side": {
+        "East": "Est",
+        "West": "Oest",
+        "eastShort": "E",
+        "westShort": "O"
+      },
       "manual": {
         "title": "Comprovació de gir de dia",
         "intro": "Sense plate solving: apunta a una referència llunyana i després ves al mateix angle horari i declinació a l'altre costat del pilar. El seguiment queda desactivat, de manera que l'apuntament es manté fix respecte al terra.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "Sembla que el rellotge de la Pi no està ajustat. La comprovació del Sol en depèn.",
         "timeSkew": "El rellotge de la Pi té {minutes} minuts de diferència amb el d'aquest dispositiu.",
         "setTime": "Ajusta l'hora de la Pi des d'aquest dispositiu",
+        "setTimeFailed": "No s'ha pogut ajustar l'hora de la Pi.",
         "start": "Inicia la comprovació de dia",
         "startConfirmTitle": "Iniciar la comprovació de dia?",
         "startConfirmMessage": "El seguiment es desactiva fins que acabis la comprovació; llavors es restaura l'estat de seguiment anterior.",

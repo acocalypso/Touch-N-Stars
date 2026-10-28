@@ -5483,6 +5483,12 @@
         "rear": "tył",
         "saddle": "szyna dovetail na siodle"
       },
+      "side": {
+        "East": "Wschód",
+        "West": "Zachód",
+        "eastShort": "W",
+        "westShort": "Z"
+      },
       "manual": {
         "title": "Dzienna kontrola przewrotem",
         "intro": "Bez plate solvingu: wskaż odległy punkt orientacyjny, a potem przejdź do tego samego kąta godzinnego i tej samej deklinacji po drugiej stronie kolumny. Śledzenie pozostaje wyłączone, więc pozycjonowanie pozostaje stałe względem ziemi.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "Zegar Pi wygląda na nieustawiony. Kontrola Słońca od niego zależy.",
         "timeSkew": "Zegar Pi różni się o {minutes} minut od zegara tego urządzenia.",
         "setTime": "Ustaw czas Pi z tego urządzenia",
+        "setTimeFailed": "Nie udało się ustawić czasu Pi.",
         "start": "Rozpocznij kontrolę dzienną",
         "startConfirmTitle": "Rozpocząć kontrolę dzienną?",
         "startConfirmMessage": "Śledzenie jest wyłączone do zakończenia kontroli; wtedy przywracany jest poprzedni stan śledzenia.",

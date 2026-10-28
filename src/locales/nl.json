@@ -5483,6 +5483,12 @@
         "rear": "achter",
         "saddle": "dovetail op het zadel"
       },
+      "side": {
+        "East": "Oost",
+        "West": "West",
+        "eastShort": "O",
+        "westShort": "W"
+      },
       "manual": {
         "title": "Flipcheck overdag",
         "intro": "Zonder plate solving: richt op een ver oriëntatiepunt en ga dan op de andere pierzijde naar dezelfde uurhoek en declinatie. Tracking blijft uit, zodat de richting aan de grond vast blijft.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "De klok van de Pi lijkt niet ingesteld. De zoncontrole hangt ervan af.",
         "timeSkew": "De klok van de Pi loopt {minutes} minuten af ten opzichte van de klok van dit apparaat.",
         "setTime": "Tijd van de Pi instellen vanaf dit apparaat",
+        "setTimeFailed": "De tijd van de Pi kon niet worden ingesteld.",
         "start": "Check overdag starten",
         "startConfirmTitle": "Check overdag starten?",
         "startConfirmMessage": "Tracking blijft uit tot je de check beëindigt; de vorige trackingstatus wordt dan hersteld.",

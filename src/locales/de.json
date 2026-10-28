@@ -5483,6 +5483,12 @@
         "rear": "hinten",
         "saddle": "Prismenschiene auf dem Montierungskopf"
       },
+      "side": {
+        "East": "Ost",
+        "West": "West",
+        "eastShort": "O",
+        "westShort": "W"
+      },
       "manual": {
         "title": "Tageslicht-Flip-Check",
         "intro": "Ohne Plate Solving: Peile eine entfernte Landmarke an und fahre dann auf der anderen Pierseite zum gleichen Stundenwinkel und zur gleichen Deklination. Das Tracking bleibt aus, damit die Ausrichtung relativ zum Boden fest bleibt.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "Die Uhr des Pi scheint nicht gestellt zu sein. Die Sonnenprüfung hängt davon ab.",
         "timeSkew": "Die Uhr des Pi weicht um {minutes} Minuten von der Uhr dieses Geräts ab.",
         "setTime": "Zeit des Pi von diesem Gerät übernehmen",
+        "setTimeFailed": "Die Uhrzeit des Pi konnte nicht gestellt werden.",
         "start": "Tageslicht-Check starten",
         "startConfirmTitle": "Tageslicht-Check starten?",
         "startConfirmMessage": "Das Tracking bleibt aus, bis du den Check beendest; der vorherige Tracking-Zustand wird dann wiederhergestellt.",

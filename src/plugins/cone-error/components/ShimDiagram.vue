@@ -129,6 +129,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { shimMm } from '../format';
 
 const FRONT_X = 80;
 const REAR_X = 230;
@@ -143,7 +144,7 @@ const shimX = computed(() =>
   props.end === 'Front' ? FRONT_X : props.end === 'Rear' ? REAR_X : null
 );
 const thickness = computed(() =>
-  typeof props.shimMm === 'number' ? `${(Math.round(props.shimMm * 20) / 20).toFixed(2)} mm` : ''
+  typeof props.shimMm === 'number' ? `${shimMm(props.shimMm)} mm` : ''
 );
 const label = computed(() =>
   props.end === 'None'

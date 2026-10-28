@@ -5483,6 +5483,12 @@
         "rear": "detrás",
         "saddle": "barra de cola de milano sobre la silla"
       },
+      "side": {
+        "East": "Este",
+        "West": "Oeste",
+        "eastShort": "E",
+        "westShort": "O"
+      },
       "manual": {
         "title": "Comprobación de giro de día",
         "intro": "Sin plate solving: apunta a una referencia lejana y luego ve al mismo ángulo horario y declinación en el otro lado del pilar. El seguimiento queda desactivado, así que el apuntamiento permanece fijo respecto al suelo.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "El reloj de la Pi parece no estar configurado. La comprobación del Sol depende de él.",
         "timeSkew": "El reloj de la Pi tiene {minutes} minutos de diferencia con el de este dispositivo.",
         "setTime": "Ajustar la hora de la Pi desde este dispositivo",
+        "setTimeFailed": "No se pudo ajustar la hora de la Pi.",
         "start": "Iniciar la comprobación de día",
         "startConfirmTitle": "¿Iniciar la comprobación de día?",
         "startConfirmMessage": "El seguimiento se desactiva hasta que termines la comprobación; entonces se restaura el estado de seguimiento anterior.",

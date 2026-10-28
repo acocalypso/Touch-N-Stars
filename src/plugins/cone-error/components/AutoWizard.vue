@@ -11,7 +11,7 @@
         $t('plugins.coneError.progress.pair', {
           pair: status.pairIndex + 1,
           total: status.repetitions,
-          side: status.currentSide || '—',
+          side: sideLabel($t, status.currentSide),
         })
       }}
     </p>
@@ -174,7 +174,7 @@
             <tr v-for="(step, i) in plan.plan.steps" :key="i" class="border-t border-line">
               <td class="py-1">{{ step.pair + 1 }}</td>
               <td>{{ $t(`plugins.coneError.auto.kind.${step.kind}`) }}</td>
-              <td>{{ step.side }}</td>
+              <td>{{ sideLabel($t, step.side) }}</td>
               <td class="text-right">{{ step.check.altitude.toFixed(0) }}°</td>
               <td class="text-right">{{ step.check.pastMeridianDegrees.toFixed(1) }}°</td>
               <td class="text-right">
@@ -223,10 +223,12 @@
 </template>
 
 <script setup>
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { useToastStore } from '@/store/toastStore';
+import { sideLabel } from '../format';
+import { usePlanClock } from '../planClock';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import ConeChecks from './ConeChecks.vue';
 import ConeResult from './ConeResult.vue';
@@ -249,7 +251,6 @@ const exposure = ref(
 const customDeclination = ref(false);
 const declination = ref(0);
 const acknowledgeModel = ref(false);
-const dismissedResult = ref(null);
 
 // Settings and the profile arrive after the component is set up; take them over until the user
 // edits a field.
@@ -289,7 +290,7 @@ const showResult = computed(
     status.value.mode === 'auto' &&
     status.value.phase === 'Complete' &&
     status.value.result &&
-    dismissedResult.value !== status.value.result.id
+    store.dismissedResultId !== status.value.result.id
 );
 
 const outcome = computed(() =>
@@ -300,9 +301,7 @@ const outcome = computed(() =>
 
 // The plan expires on the backend after 60 s: the sky moves on. Counted from when it arrived, so
 // that a phone clock off the Pi's does not matter.
-const now = ref(Date.now());
-const timer = setInterval(() => (now.value = Date.now()), 1000);
-onUnmounted(() => clearInterval(timer));
+const now = usePlanClock(plan);
 const secondsLeft = computed(() =>
   plan.value
     ? Math.max(
@@ -355,7 +354,7 @@ async function answer(yes) {
 }
 
 function newMeasurement() {
-  dismissedResult.value = status.value.result?.id ?? null;
+  store.dismissedResultId = status.value.result?.id ?? null;
   store.loadPreconditions();
 }
 </script>

@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 20] - 2026-10-28
+
+### Changed
+
+- Interface: On tablets and large screens the focus page, the settings, the mount, filter wheel, flat device, rotator and dome pages and the sub-tabs of the sequence editor use more of the screen width.
+- Focus: When the settings tabs do not fit on a narrow screen, a fade with an arrow at the edge shows that more tabs can be scrolled into view.
+
 ## [App6.5.0 - beta 19] - 2026-10-28
 
 ### Fixed

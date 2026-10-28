@@ -6,6 +6,23 @@ export function readLimit(value, integer = false) {
   return number;
 }
 
+export function moveCaptureRoi(roi, camera, settings, dx, dy, fraction = 0.1) {
+  const gcd = (a, b) => (b ? gcd(b, a % b) : a);
+  const alignment = (bin) => (2 * bin) / gcd(2, bin);
+  const ax = alignment(settings.binX || 1);
+  const ay = alignment(settings.binY || 1);
+  const shift = (size, step) => Math.max(step, Math.round((size * fraction) / step) * step);
+  const x = Math.max(
+    0,
+    Math.min(Math.floor((camera.width - roi.width) / ax) * ax, roi.x + dx * shift(roi.width, ax))
+  );
+  const y = Math.max(
+    0,
+    Math.min(Math.floor((camera.height - roi.height) / ay) * ay, roi.y + dy * shift(roi.height, ay))
+  );
+  return { ...roi, x, y };
+}
+
 export function selectionToRoi(source, selection) {
   const clamp = (value) => Math.max(0, Math.min(1, value));
   const endX = source.x + source.width;

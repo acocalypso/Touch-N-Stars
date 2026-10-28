@@ -363,8 +363,8 @@ test('the full Pi run caps the sweep a margin inside the star-loss boundary', ()
   ].map(([offset, hfr, stars]) => ({ offset, hfr, stars }));
   const result = suggestStepSize({ hfr: 1.39, stars: 100 }, probes, 3);
   assert.equal(result.limited, true);
-  // 0.65 · ~650 / 3 ≈ 141: the outer points sit near 420 steps, where about half the stars remain.
-  assert.ok(result.stepSize >= 130 && result.stepSize <= 150, JSON.stringify(result));
+  // 0.7 · ~650 / 3 ≈ 152: the outer points sit near 455 steps, where about half the stars remain.
+  assert.ok(result.stepSize >= 140 && result.stepSize <= 160, JSON.stringify(result));
 });
 
 test('the measurement bisects back when a probe loses the stars', () => {

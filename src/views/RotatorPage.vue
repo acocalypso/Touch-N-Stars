@@ -24,7 +24,7 @@
       </p>
     </div>
     <div v-else class="container flex items-center justify-center pt-4">
-      <div class="container max-w-md landscape:max-w-xl">
+      <div class="container max-w-3xl">
         <!-- Rotator Tab -->
         <Transition name="slide-in" mode="out-in">
           <div v-if="currentTab === 'showRotator'" class="mt-4" key="rotator">

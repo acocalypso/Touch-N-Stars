@@ -30,7 +30,7 @@
            because the sequence view above is never unmounted. -->
       <div
         v-if="sequenceStore.currentTab === 'showSettings'"
-        class="container max-w-md landscape:max-w-xl mx-auto pb-36"
+        class="container max-w-3xl mx-auto pb-36"
       >
         <div class="border border-line rounded-card shadow-lg bg-surface-1 p-5">
           <SequenceSettings />

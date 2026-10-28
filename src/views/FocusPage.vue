@@ -24,7 +24,7 @@
     </div>
 
     <div v-else class="container flex items-center justify-center">
-      <div class="container max-w-md landscape:max-w-xl">
+      <div class="w-full max-w-6xl mx-auto">
         <!-- Focus Tab: the only one that needs the focuser; the settings are profile values -->
         <div
           v-if="currentTab === 'showFocus' && !store.focuserInfo.Connected"

@@ -9,7 +9,7 @@
       @update:activeItem="selectTab"
     />
 
-    <div class="p-4 max-w-xl mx-auto space-y-6">
+    <div class="p-4 max-w-4xl mx-auto space-y-6">
       <!-- Connection & Location Tab -->
       <SettingsConnectionTab v-if="activeTab === 'connection'" />
 

@@ -8,7 +8,7 @@
       v-model:activeItem="currentTab"
     />
     <div class="container py-4 flex items-center justify-center">
-      <div class="container max-w-md landscape:max-w-xl">
+      <div class="container max-w-3xl">
         <h5 class="text-xl text-center font-bold text-white mb-4">
           {{ $t('components.filterwheel.title') }}
         </h5>

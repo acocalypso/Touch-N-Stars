@@ -11,7 +11,7 @@
     </p>
   </div>
   <div v-else class="container flex items-center justify-center">
-    <div class="container max-w-md landscape:max-w-xl">
+    <div class="container max-w-3xl">
       <div>
         <infoDome compact class="p-3 bg-surface-1 rounded-card border border-line" />
       </div>

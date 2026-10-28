@@ -9,7 +9,7 @@
   >
     <SubNav :items="subNavItems" v-model:activeItem="store.mount.currentTab" />
     <div class="container py-4 flex items-center justify-center">
-      <div class="container max-w-md landscape:max-w-xl">
+      <div class="container max-w-3xl">
         <!-- No page heading: the SubNav already names the page. -->
         <infoMount
           v-if="!['showTppa', 'showSettings', 'showOnStepX'].includes(store.mount.currentTab)"

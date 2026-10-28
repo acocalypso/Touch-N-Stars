@@ -70,8 +70,12 @@
       >
         {{ $t('plugins.coneError.question.counterweight') }}
       </text>
-      <text :x="mirror ? 182 : 12" y="104" font-size="11" fill="var(--color-content-faint)">E</text>
-      <text :x="mirror ? 12 : 182" y="104" font-size="11" fill="var(--color-content-faint)">W</text>
+      <text :x="mirror ? 182 : 12" y="104" font-size="11" fill="var(--color-content-faint)">
+        {{ sideLabel($t, 'East', true) }}
+      </text>
+      <text :x="mirror ? 12 : 182" y="104" font-size="11" fill="var(--color-content-faint)">
+        {{ sideLabel($t, 'West', true) }}
+      </text>
     </svg>
     <figcaption class="text-center text-xs text-content-faint">
       {{ $t('plugins.coneError.question.view') }}
@@ -81,6 +85,7 @@
 
 <script setup>
 import { computed } from 'vue';
+import { sideLabel } from '../format';
 import { useConeErrorStore } from '../store/coneErrorStore';
 
 const store = useConeErrorStore();

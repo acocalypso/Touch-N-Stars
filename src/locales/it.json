@@ -5483,6 +5483,12 @@
         "rear": "posteriore",
         "saddle": "barra a coda di rondine sulla sella"
       },
+      "side": {
+        "East": "Est",
+        "West": "Ovest",
+        "eastShort": "E",
+        "westShort": "O"
+      },
       "manual": {
         "title": "Controllo diurno con inversione",
         "intro": "Senza plate solving: punta un punto di riferimento lontano, poi spostati allo stesso angolo orario e alla stessa declinazione sull'altro lato del pilastro. L'inseguimento resta spento, quindi il puntamento resta fisso rispetto al suolo.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "L'orologio del Pi sembra non impostato. Il controllo del Sole ne dipende.",
         "timeSkew": "L'orologio del Pi differisce di {minutes} minuti da quello di questo dispositivo.",
         "setTime": "Imposta l'ora del Pi da questo dispositivo",
+        "setTimeFailed": "Impossibile impostare l'ora del Pi.",
         "start": "Avvia il controllo diurno",
         "startConfirmTitle": "Avviare il controllo diurno?",
         "startConfirmMessage": "L'inseguimento resta spento finché non termini il controllo; poi viene ripristinato lo stato precedente.",

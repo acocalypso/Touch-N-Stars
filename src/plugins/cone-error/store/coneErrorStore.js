@@ -10,6 +10,9 @@ import api from '../api';
 let poller = null;
 let openViews = 0;
 let polls = 0;
+// Settings saves run one after another (a −/+ tap fires one each); only the last response counts.
+let settingsQueue = Promise.resolve();
+let settingsSaves = 0;
 
 function wantPolling(store) {
   return !isAppBackgrounded.value && (openViews > 0 || store.active);
@@ -44,9 +47,13 @@ export const useConeErrorStore = defineStore('coneError', {
     autoPlan: null,
     movePlan: null,
     estimate: null,
+    // the result the user put away with "New measurement"; kept here so a tab switch keeps it away
+    dismissedResultId: null,
     loading: false,
     pending: false,
     error: null,
+    // a failed poll's error is cleared by the next successful poll; an action's error is not
+    errorFromPoll: false,
   }),
 
   getters: {
@@ -61,13 +68,25 @@ export const useConeErrorStore = defineStore('coneError', {
   },
 
   actions: {
+    setError(error, fromPoll = false) {
+      if (error.cancelled) return;
+      this.error = error;
+      this.errorFromPoll = fromPoll;
+    },
+
+    clearPollError() {
+      if (!this.errorFromPoll) return;
+      this.error = null;
+      this.errorFromPoll = false;
+    },
+
     async run(action) {
       this.pending = true;
       this.error = null;
       try {
         return await action();
       } catch (error) {
-        if (!error.cancelled) this.error = error;
+        this.setError(error);
         throw error;
       } finally {
         this.pending = false;
@@ -87,8 +106,9 @@ export const useConeErrorStore = defineStore('coneError', {
     async loadStatus() {
       try {
         this.status = await api.getStatus();
+        this.clearPollError();
       } catch (error) {
-        if (!error.cancelled) this.error = error;
+        this.setError(error, true);
       }
     },
 
@@ -107,7 +127,7 @@ export const useConeErrorStore = defineStore('coneError', {
         this.results = results ?? [];
         this.error = null;
       } catch (error) {
-        if (!error.cancelled) this.error = error;
+        this.setError(error);
       } finally {
         this.loading = false;
       }
@@ -116,8 +136,9 @@ export const useConeErrorStore = defineStore('coneError', {
     async loadPreconditions() {
       try {
         this.preconditions = await api.getPreconditions();
+        this.clearPollError();
       } catch (error) {
-        if (!error.cancelled) this.error = error;
+        this.setError(error, true);
       }
     },
 
@@ -125,13 +146,17 @@ export const useConeErrorStore = defineStore('coneError', {
       try {
         this.results = (await api.getResults()) ?? [];
       } catch (error) {
-        if (!error.cancelled) this.error = error;
+        this.setError(error);
       }
     },
 
-    /** Sends only the changed fields. */
+    /** Sends only the changed fields, after any save still under way. */
     async saveSettings(changes) {
-      this.settings = await this.run(() => api.saveSettings(changes));
+      const save = ++settingsSaves;
+      const request = settingsQueue.then(() => this.run(() => api.saveSettings(changes)));
+      settingsQueue = request.catch(() => {});
+      const settings = await request;
+      if (save === settingsSaves) this.settings = settings;
     },
 
     async planAuto(request) {

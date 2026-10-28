@@ -5483,6 +5483,12 @@
         "rear": "arrière",
         "saddle": "queue d'aronde sur la selle"
       },
+      "side": {
+        "East": "Est",
+        "West": "Ouest",
+        "eastShort": "E",
+        "westShort": "O"
+      },
       "manual": {
         "title": "Contrôle de retournement de jour",
         "intro": "Sans résolution de plaques : vise un repère lointain, puis va au même angle horaire et à la même déclinaison de l'autre côté du pilier. Le suivi reste désactivé, le pointage reste donc fixe par rapport au sol.",
@@ -5493,6 +5499,7 @@
         "timeUnset": "L'horloge du Pi semble ne pas être réglée. La vérification du Soleil en dépend.",
         "timeSkew": "L'horloge du Pi a {minutes} minutes d'écart avec celle de cet appareil.",
         "setTime": "Régler l'heure du Pi depuis cet appareil",
+        "setTimeFailed": "Impossible de régler l'heure du Pi.",
         "start": "Démarrer le contrôle de jour",
         "startConfirmTitle": "Démarrer le contrôle de jour ?",
         "startConfirmMessage": "Le suivi est désactivé jusqu'à la fin du contrôle ; l'état de suivi précédent est alors restauré.",

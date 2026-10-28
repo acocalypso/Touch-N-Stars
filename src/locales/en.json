@@ -5519,6 +5519,12 @@
         "rear": "rear",
         "saddle": "dovetail on the saddle"
       },
+      "side": {
+        "East": "East",
+        "West": "West",
+        "eastShort": "E",
+        "westShort": "W"
+      },
       "manual": {
         "title": "Daytime flip check",
         "intro": "Without plate solving: point at a distant landmark, then move to the same hour angle and declination on the other pier side. Tracking stays off, so the pointing stays fixed to the ground.",
@@ -5529,6 +5535,7 @@
         "timeUnset": "The Pi's clock looks unset. The Sun check depends on it.",
         "timeSkew": "The Pi's clock is {minutes} minutes off this device's clock.",
         "setTime": "Set the Pi's time from this device",
+        "setTimeFailed": "Could not set the Pi's time.",
         "start": "Start the daytime check",
         "startConfirmTitle": "Start the daytime check?",
         "startConfirmMessage": "Tracking is turned off until you end the check; the previous tracking state is restored then.",

@@ -135,6 +135,10 @@
                 </template>
               </template>
             </div>
+
+            <!-- The Livestack plugin's own options. Only on PINS - on Windows NINA they are on
+                 the plugin's options page. -->
+            <LivestackPluginSettings v-if="apiState.isPINS" />
           </div>
         </div>
       </div>
@@ -149,6 +153,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useLivestackStore } from '../store/livestackStore.js';
+import LivestackPluginSettings from './LivestackPluginSettings.vue';
 
 const showConfiguration = ref(false);
 const store = useLivestackStore();

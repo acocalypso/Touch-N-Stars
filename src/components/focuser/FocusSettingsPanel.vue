@@ -186,7 +186,10 @@ const { t } = useI18n();
 const store = apiStore();
 const focuserStore = useFocuserStore();
 
-const hasDeviceSettings = computed(() => focuserStore.focuserSettings != null);
+// focuserSettings survives a disconnect, so the connection decides whether they are current
+const hasDeviceSettings = computed(
+  () => store.focuserInfo.Connected && focuserStore.focuserSettings != null
+);
 
 const tabs = computed(() => [
   ...(props.simpleLabel ? [{ value: 'simple', label: props.simpleLabel }] : []),

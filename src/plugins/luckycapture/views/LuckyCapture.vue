@@ -13,7 +13,7 @@ import FocusPanel from '../components/FocusPanel.vue';
 import MountPanel from '../components/MountPanel.vue';
 import CameraControl from '../components/CameraControl.vue';
 import IntensityHistogram from '../components/IntensityHistogram.vue';
-import { readLimit, selectionToRoi } from '../utils/captureUi';
+import { readLimit, selectionToRoi, moveCaptureRoi } from '../utils/captureUi';
 import { useLuckyCaptureStore } from '../store/luckycaptureStore';
 const store = useLuckyCaptureStore();
 const connectionSettings = useSettingsStore();
@@ -53,6 +53,59 @@ const form = reactive({
   allowStreamDepthReduction: false,
 });
 const roi = reactive({ x: 0, y: 0, width: 512, height: 512 });
+const roiStep = ref(0.1);
+const appliedRoi = computed(() => store.settings.roi);
+const canChangeRoi = computed(
+  () =>
+    store.camera?.connected &&
+    store.camera.roiSupported &&
+    !busy.value &&
+    !focusBusy.value &&
+    ['READY', 'PREVIEWING', 'ERROR'].includes(store.status.state)
+);
+const roiDirections = [
+  { key: 'up', dx: 0, dy: -1, icon: '\u2191' },
+  { key: 'left', dx: -1, dy: 0, icon: '\u2190' },
+  { key: 'right', dx: 1, dy: 0, icon: '\u2192' },
+  { key: 'down', dx: 0, dy: 1, icon: '\u2193' },
+];
+function shiftedRoi(direction) {
+  if (!appliedRoi.value) return null;
+  const sign = rotatedPreview.value ? -1 : 1;
+  return moveCaptureRoi(
+    appliedRoi.value,
+    store.camera,
+    store.settings,
+    direction.dx * sign,
+    direction.dy * sign,
+    roiStep.value
+  );
+}
+function canMoveRoi(direction) {
+  const next = shiftedRoi(direction);
+  return (
+    canChangeRoi.value && next && (next.x !== appliedRoi.value.x || next.y !== appliedRoi.value.y)
+  );
+}
+async function changePreviewRoi(next) {
+  // invoke() has already marked this action busy; check device/session guards here.
+  if (
+    !store.camera?.connected ||
+    focusBusy.value ||
+    !['READY', 'PREVIEWING', 'ERROR'].includes(store.status.state)
+  )
+    return;
+  selecting.value = false;
+  selection.value = null;
+  drag.value = null;
+  try {
+    await store.changeRoi(next);
+  } finally {
+    useRoi.value = !!store.settings.roi;
+    if (store.settings.roi) Object.assign(roi, store.settings.roi);
+    savePreferences(store.settings);
+  }
+}
 const useRoi = ref(false);
 const recording = reactive({
   format: 'ser',
@@ -573,9 +626,6 @@ onUnmounted(() => {
         </div>
         <MountPanel :visible="!compact || panel === 'preview'" @update:open="mountOpen = $event" />
         <div class="preview-tools">
-          <button type="button" :aria-pressed="rotatedPreview" @click="rotatePreview">
-            {{ text('rotatePreview') }}
-          </button>
           <button
             v-if="store.camera?.roiSupported"
             :disabled="busy || recordingActive || finishing || !store.previewUrl"
@@ -585,12 +635,57 @@ onUnmounted(() => {
             {{ selecting ? text('cancelSelection') : text('selectRoi') }}
           </button>
           <button
+            v-if="store.camera?.roiSupported"
+            type="button"
+            :disabled="!canChangeRoi || !appliedRoi"
+            @click="invoke(() => changePreviewRoi(null))"
+          >
+            {{ text('resetRoi') }}
+          </button>
+          <button type="button" :aria-pressed="rotatedPreview" @click="rotatePreview">
+            {{ text('rotatePreview') }}
+          </button>
+          <button
             :disabled="busy || !store.previewUrl"
             @click="invoke(() => store.command('snapshot', recording))"
           >
             {{ text('snapshotShort') }}
           </button>
         </div>
+        <fieldset
+          v-if="appliedRoi && store.camera?.roiSupported"
+          class="roi-navigation"
+          :disabled="!canChangeRoi"
+          aria-describedby="lc-move-roi-help"
+        >
+          <legend>{{ text('moveRoi') }}</legend>
+          <div class="roi-pad">
+            <button
+              v-for="direction in roiDirections"
+              :key="direction.key"
+              type="button"
+              :class="`roi-${direction.key}`"
+              :aria-label="text(`roiMove${direction.key}`)"
+              :disabled="!canMoveRoi(direction)"
+              @click="invoke(() => changePreviewRoi(shiftedRoi(direction)))"
+            >
+              <span aria-hidden="true">{{ direction.icon }}</span>
+            </button>
+          </div>
+          <div class="roi-position">
+            <label for="lc-roi-step">{{ text('roiMoveStep') }}</label>
+            <select id="lc-roi-step" v-model.number="roiStep">
+              <option :value="0">{{ text('roiMoveFine') }}</option>
+              <option :value="0.1">{{ text('roiMoveNormal') }}</option>
+              <option :value="0.5">{{ text('roiMoveLarge') }}</option>
+            </select>
+            <p class="hint">
+              X {{ appliedRoi.x }} · Y {{ appliedRoi.y }} · {{ appliedRoi.width }} ×
+              {{ appliedRoi.height }}
+            </p>
+          </div>
+          <p id="lc-move-roi-help" class="hint">{{ text('roiMoveHelp') }}</p>
+        </fieldset>
         <p class="hint">{{ text('previewOrientationHelp') }}</p>
         <p class="hint" :class="{ selectingHint: selecting }">{{ roiHint }}</p>
         <dl class="stats primary-stats">
@@ -1083,6 +1178,53 @@ summary:focus-visible {
 }
 .preview-tools button {
   flex: 1;
+  min-height: 44px;
+  min-width: 7rem;
+}
+.roi-navigation {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.6rem 1rem;
+  margin-top: 0.6rem;
+}
+.roi-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 4px;
+}
+.roi-pad button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  font-size: 1.4rem;
+}
+.roi-up {
+  grid-area: 1 / 2;
+}
+.roi-left {
+  grid-area: 2 / 1;
+}
+.roi-right {
+  grid-area: 2 / 3;
+}
+.roi-down {
+  grid-area: 3 / 2;
+}
+.roi-position {
+  min-width: 0;
+  align-self: center;
+}
+.roi-position select {
+  width: 100%;
+  min-height: 44px;
+}
+.roi-position p {
+  overflow-wrap: anywhere;
+}
+.roi-navigation > p {
+  grid-column: 1 / -1;
+  margin: 0;
 }
 .hint,
 dt {

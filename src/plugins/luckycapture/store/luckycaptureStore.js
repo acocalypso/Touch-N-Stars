@@ -6,6 +6,7 @@ let events;
 let controller;
 let generation = 0;
 let sampling = false;
+let previewGeneration = 0;
 export const useLuckyCaptureStore = defineStore('luckycapture', {
   state: () => ({
     available: false,
@@ -27,6 +28,22 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
       ['STARTING', 'PREVIEWING', 'RECORDING', 'STOPPING', 'FINALIZING'].includes(s.status.state),
   },
   actions: {
+    clearPreview() {
+      previewGeneration++;
+      if (this.previewUrl) URL.revokeObjectURL(this.previewUrl);
+      this.previewUrl = '';
+      this.histogram = null;
+      this.previewRoi = null;
+    },
+    async changeRoi(roi) {
+      if (!this.camera?.connected || !['READY', 'PREVIEWING', 'ERROR'].includes(this.status.state))
+        throw new Error('Stop recording before changing ROI');
+      const resume = this.status.state === 'PREVIEWING';
+      if (resume) await this.command('preview/stop', {});
+      this.settings = await this.command('settings', { ...this.settings, roi }, 'PUT');
+      this.clearPreview();
+      if (resume) await this.command('preview/start', { previewFps: 8 });
+    },
     failure(error) {
       if (error?.code === 'ERR_CANCELED') return;
       this.error = error?.response?.data?.message || error?.message || 'Request failed';
@@ -126,6 +143,7 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
     async sample(current) {
       if (sampling) return;
       sampling = true;
+      const preview = previewGeneration;
       try {
         const [histogram, response] = await Promise.all([
           luckyCaptureRequest('histogram', undefined, 'GET', controller.signal),
@@ -135,13 +153,13 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
         ]);
         if (!response.ok) return;
         const blob = await response.blob();
-        if (current !== generation) return;
+        if (current !== generation || preview !== previewGeneration) return;
         const old = this.previewUrl;
         this.previewUrl = URL.createObjectURL(blob);
         this.histogram = histogram;
         if (old) URL.revokeObjectURL(old);
       } catch (error) {
-        if (current === generation) this.failure(error);
+        if (current === generation && preview === previewGeneration) this.failure(error);
       } finally {
         sampling = false;
       }

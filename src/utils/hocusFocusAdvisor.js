@@ -38,7 +38,7 @@ export const PROBE_BISECT_PRECISION = 0.15;
 // The star-loss boundary is only bracketed to PROBE_BISECT_PRECISION and star counts jitter from
 // frame to frame, so a capped sweep stays this far inside it. The boundary equals the run
 // diagnosis' STAR_LOSS_RATIO, so the margin must keep the outer AF points clearly above it: on the
-// Pi data 0.8 left about 36 % of the stars there, 0.65 keeps about half.
+// Pi data 0.8 left about 36 % of the stars there, 0.7 still keeps about half.
 export const SWEEP_STAR_MARGIN = 0.7;
 export const PROBE_MAX_COUNT = 16;
 export const PROBE_MIN_POINTS = 3;

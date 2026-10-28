@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 18] - 2026-10-28
+
+### Fixed
+
+- Focus: The focus page is reachable without a connected focuser, so Hocus Focus can be used again without one and the focus settings can be changed beforehand. The settings are stored in the profile and apply to the next autofocus run; only the focus tab itself and the device-specific settings still need the focuser.
+
 ## [App6.5.0 - beta 17] - 2026-10-27
 
 ### Added

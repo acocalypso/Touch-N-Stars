@@ -96,7 +96,7 @@
         </div>
 
         <div
-          v-if="store.focuserInfo.Connected && !isNavItemHidden('autofocus')"
+          v-if="!isNavItemHidden('autofocus')"
           :style="{ order: getNavOrder('autofocus') }"
           class="nav-item"
         >

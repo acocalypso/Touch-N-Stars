@@ -23,19 +23,23 @@
       </div>
     </div>
 
-    <div
-      v-else-if="!store.focuserInfo.Connected"
-      class="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
-    >
-      <p class="text-red-400 font-medium text-center">
-        {{ $t('components.focuser.please_connect_focuser') }}
-      </p>
-    </div>
     <div v-else class="container flex items-center justify-center">
       <div class="container max-w-md landscape:max-w-xl">
-        <!-- Focus Tab -->
+        <!-- Focus Tab: the only one that needs the focuser; the settings are profile values -->
+        <div
+          v-if="currentTab === 'showFocus' && !store.focuserInfo.Connected"
+          class="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+        >
+          <p class="text-red-400 font-medium text-center">
+            {{ $t('components.focuser.please_connect_focuser') }}
+          </p>
+        </div>
         <Transition name="slide-in" mode="out-in">
-          <div v-if="currentTab === 'showFocus'" class="mt-4" key="focus">
+          <div
+            v-if="currentTab === 'showFocus' && store.focuserInfo.Connected"
+            class="mt-4"
+            key="focus"
+          >
             <infoFocuser
               v-model="store.focuserInfo.Connected"
               compact
@@ -96,7 +100,8 @@ const store = apiStore();
 const imageStore = useImagetStore();
 const focuserStore = useFocuserStore();
 const hfStore = useHocusFocusStore();
-const currentTab = ref('showFocus');
+// Without a focuser the focus tab has nothing to offer: start on the settings instead
+const currentTab = ref(store.focuserInfo.Connected ? 'showFocus' : 'showSettings');
 const delayShowGraph = ref(false);
 const showAssistant = ref(false);
 

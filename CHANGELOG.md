@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 21] - 2026-10-29
+
+### Added
+
+- Cone Error (plugin, PINS): A guided measurement of the cone error of the mount. It checks the preconditions, suggests a target, shows every planned slew and meridian flip for confirmation before the mount moves, shows the progress with a one-tap abort and ends with the shim thickness, which end of the dovetail to shim and a comparison with the last measurement. A daytime flip check works without stars, with limit and sun checks for every move. Developed by @nitr57.
+- Livestack (PINS): The Livestack settings dialog now holds the plugin options that are otherwise out of reach on PINS: the working directory with free space warnings, bias and hot pixel calibration, a master library for bias, dark and flat frames, which files are saved, and the defaults for new stacks. Settings that cannot change while stacking are locked with a hint. Developed by @nitr57.
+
 ## [App6.5.0 - beta 20] - 2026-10-28
 
 ### Changed

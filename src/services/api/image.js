@@ -16,6 +16,24 @@ async function getRawImage(url, params, signal) {
   return response.data;
 }
 
+// The TNS plugin's Livestack routes answer a refused request with a JSON body
+// { Success: false, Response: { Errors: [{ Field, Code, Message }] } } and status 400/404/409;
+// that body is returned like a success, anything else rejects.
+async function livestackRequest(request) {
+  try {
+    const response = await request;
+    return response.data;
+  } catch (error) {
+    if (error?.response?.data?.Success === false) {
+      return error.response.data;
+    }
+    throw error;
+  }
+}
+
+// Adding a master reads all its pixels for the mean, a few seconds for a large one on a Pi
+const LIVESTACK_MASTER_TIMEOUT = 60000;
+
 export default {
   //-------------------------------------  Image History ---------------------------------------
   async imageHistoryAll() {
@@ -175,6 +193,63 @@ export default {
   },
 
   //-------------------------------------  Livestack ---------------------------------------
+  // The Livestack plugin's options and calibration library, served by the TNS plugin. rawHttp, not
+  // the global axios: its interceptor would replace a refusal by a mock response without the errors.
+  async getLivestackSettings() {
+    const { API_URL } = getUrls();
+    return livestackRequest(
+      rawHttp.get(`${API_URL}livestack/settings`, { timeout: DEFAULT_TIMEOUT })
+    );
+  },
+
+  async setLivestackSettings(body) {
+    const { API_URL } = getUrls();
+    return livestackRequest(
+      rawHttp.put(`${API_URL}livestack/settings`, body, { timeout: DEFAULT_TIMEOUT })
+    );
+  },
+
+  async getLivestackCalibration() {
+    const { API_URL } = getUrls();
+    return livestackRequest(
+      rawHttp.get(`${API_URL}livestack/calibration`, { timeout: DEFAULT_TIMEOUT })
+    );
+  },
+
+  async inspectLivestackCalibrationMaster(path) {
+    const { API_URL } = getUrls();
+    return livestackRequest(
+      rawHttp.get(`${API_URL}livestack/calibration/inspect`, {
+        params: { path },
+        timeout: DEFAULT_TIMEOUT,
+      })
+    );
+  },
+
+  async addLivestackCalibrationMaster(body) {
+    const { API_URL } = getUrls();
+    return livestackRequest(
+      rawHttp.post(`${API_URL}livestack/calibration`, body, { timeout: LIVESTACK_MASTER_TIMEOUT })
+    );
+  },
+
+  async removeLivestackCalibrationMaster({ Type, Path, Gain, Offset, ExposureTime, Filter }) {
+    const { API_URL } = getUrls();
+    return livestackRequest(
+      rawHttp.delete(`${API_URL}livestack/calibration`, {
+        params: {
+          type: Type,
+          path: Path,
+          gain: Gain,
+          offset: Offset,
+          exposureTime: ExposureTime,
+          filter: Filter,
+        },
+        timeout: DEFAULT_TIMEOUT,
+      })
+    );
+  },
+
   async livestackStart() {
     try {
       const { BASE_URL } = getUrls();
